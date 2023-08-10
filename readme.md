@@ -1,4 +1,6 @@
-# i the installer
+# ~~i the installer~~
+
+THIS PROJECT IS CANCELLED
 
 __i__ stands for __install__. You can use `i` to install any software via any package manager.
 
