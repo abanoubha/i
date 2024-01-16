@@ -45,16 +45,28 @@ If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. B
 
 ## Plan: supported package managers
 
-| package manager | status |
-|:---------------:|:------:|
-| brew            |  WIP   |
-| apt             |  ---   |
-| apt-get         |  ---   |
-| dnf             |  ---   |
-| swupd           |  ---   |
-| go              |  ---   |
-| cargo           |  ---   |
-| python          |  ---   |
+| package manager    | exec | Operating Systems    | status |
+|:------------------:|:----:|:--------------------:|:------:|
+| brew (Homebrew)    |  1   | MacOS, Linux, BSD    |  WIP   |
+| port (MacPorts)    |  1   | MacOS                |  ---   |
+| apt                |  1   | Linux (Debian-based) |  ---   |
+| apt-get            |  1   | Linux (Debian-based) |  ---   |
+| dnf                |  1   | Linux (Fedora)       |  ---   |
+| nix                |  1   | Linux, NixOS         |  ---   |
+| pacman             |  1   | Linux                |  ---   |
+| swupd              |  1   | Linux                |  ---   |
+| rpm                |  1   | Linux                |  ---   |
+| snap               |  2   | Linux                |  ---   |
+| flatpak            |  2   | Linux                |  ---   |
+| pkgsrc             |  2   | Linux                |  ---   |
+| winget             |  2   | Windows              |  ---   |
+| choco (Chocolatey) |  2   | Windows              |  ---   |
+| go                 |  3   | language-based pm    |  ---   |
+| cargo              |  3   | language-based pm    |  ---   |
+| python             |  3   | language-based pm    |  ---   |
+
+\* `exec` stands for __execution priority__.
+\* `pm` stands for __package manager__.
 
 ## Plan: homebrew
 
