@@ -22,3 +22,53 @@ If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. B
 
 - CLI : `i vim` to istall __vim__.
 - GUI : `vim` then click search.
+
+## Plan: commands
+
+| command  | meaning |
+|:--------:|:--------|
+| `i search x` | search for x |
+| `i install x` | install x |
+| `i add x` | install x |
+| `i uninstall x` | uninstall x |
+| `i remove x` | uninstall x |
+| `i reinstall x` | uninstall x, then install it |
+| `i info x` | show info about x |
+| `i upgrade x` | upgrade x to the newer version if available |
+| `i update x` | upgrade x to the newer version if available |
+| `i updateable` | list all upgradeable apps/programs |
+| `i updatable` | list all upgradeable apps/programs |
+| `i upgradeable` | list all upgradeable apps/programs |
+| `i upgradable` | list all upgradeable apps/programs |
+
+\* updating the local index of packages is always run first. No need to run it manually.
+
+## Plan: supported package managers
+
+| package manager | status |
+|:---------------:|:------:|
+| brew            |  WIP   |
+| apt             |  ---   |
+| apt-get         |  ---   |
+| dnf             |  ---   |
+| swupd           |  ---   |
+| go              |  ---   |
+| cargo           |  ---   |
+| python          |  ---   |
+
+## Plan: homebrew
+
+```sh
+brew search TEXT|/REGEX/
+brew info [FORMULA|CASK...]
+brew install FORMULA|CASK...
+brew update
+brew upgrade [FORMULA|CASK...]
+brew uninstall FORMULA|CASK...
+brew list [FORMULA|CASK...]
+```
+
+## tasks
+
+- [x] check if the package/app/program is already installed and executable/callable
+- [x] support search via homebrew
