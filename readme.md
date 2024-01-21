@@ -1,4 +1,4 @@
-# i the installer
+# i the abstraction over all package managers
 
 __i__ stands for __install__. You can use `i` to install any software via any package manager.
 
