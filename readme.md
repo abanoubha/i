@@ -36,6 +36,10 @@ If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. B
 | `i info x` | show info about x |
 | `i upgrade x` | upgrade x to the newer version if available |
 | `i update x` | upgrade x to the newer version if available |
+| `i up x` | upgrade x to the newer version if available |
+| `i upgrade` | upgrade all to the newer version if available |
+| `i update` | upgrade all to the newer version if available |
+| `i up` | upgrade all to the newer version if available |
 | `i updateable` | list all upgradeable apps/programs |
 | `i updatable` | list all upgradeable apps/programs |
 | `i upgradeable` | list all upgradeable apps/programs |
