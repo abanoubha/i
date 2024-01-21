@@ -26,7 +26,7 @@ If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. B
 ## Plan: commands
 
 | command  | meaning |
-|:--------:|:--------|
+|:--------|:--------|
 | `i search x` | search for x |
 | `i install x` | install x |
 | `i add x` | install x |
