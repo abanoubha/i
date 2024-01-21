@@ -118,6 +118,45 @@ z v1.2.3 >> v2.0.0
 # updating the local index of packages is always run first. No need to run it manually.
 ```
 
+## Plan: Arguments
+
+### verbose output
+
+```sh
+$ i install z
+installing z ... DONE
+
+$ i install -v z
+using homebrew to install z
+    $ brew install z
+installing z ... DONE
+
+$ i install --verbose z
+using homebrew to install z
+    $ brew install z
+installing z ... DONE
+```
+
+### specify a package manager
+
+```sh
+$ i install y
+installing y ... DONE
+
+$ i install --brew y
+installing y via homebrew ... DONE
+
+$ i install --apt z
+installing z via apt ... DONE
+```
+
+### no output/script
+
+```sh
+$ i install a # nothing will be returned if successful; a.k.a os.Exit(0)
+$
+```
+
 ## Plan: supported package managers
 
 | package manager    | exec | Operating Systems    | status |
