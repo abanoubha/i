@@ -47,6 +47,77 @@ If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. B
 
 \* updating the local index of packages is always run first. No need to run it manually.
 
+```sh
+$ i search x # search for x
+searching for x ...
+
+$ i install x # install x
+installing x ...
+
+$ i add x # install x
+installing x ...
+
+$ i uninstall x # uninstall x
+uninstalling x ...
+
+$ i remove x # uninstall x
+uninstalling x ...
+
+$ i reinstall x # uninstall x, then install it
+uninstalling x ... DONE
+installing x ... DONE
+
+$ i info x # show info about x
+x is blah blah blah
+
+$ i upgrade x # upgrade x to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+
+$ i update x # upgrade x to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+
+$ i up x # upgrade x to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+
+$ i upgrade # upgrade all to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+upgrading y from v0.1.0 to v0.6.0
+upgrading z from v1.3.0 to v1.3.2
+
+$ i update # upgrade all to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+upgrading y from v0.1.0 to v0.6.0
+upgrading z from v1.3.0 to v1.3.2
+
+
+$ i up # upgrade all to the newer version if available
+upgrading x from v1.0.0 to v1.1.0
+upgrading y from v0.1.0 to v0.6.0
+upgrading z from v1.3.0 to v1.3.2
+
+$ i updateable # list all upgradeable apps/programs
+x v1.2.1 >> v1.2.2
+y v0.5.1 >> v1.0.2
+z v1.2.3 >> v2.0.0
+
+$ i updatable # list all upgradeable apps/programs
+x v1.2.1 >> v1.2.2
+y v0.5.1 >> v1.0.2
+z v1.2.3 >> v2.0.0
+
+$ i upgradeable # list all upgradeable apps/programs
+x v1.2.1 >> v1.2.2
+y v0.5.1 >> v1.0.2
+z v1.2.3 >> v2.0.0
+
+$ i upgradable # list all upgradeable apps/programs
+x v1.2.1 >> v1.2.2
+y v0.5.1 >> v1.0.2
+z v1.2.3 >> v2.0.0
+
+# updating the local index of packages is always run first. No need to run it manually.
+```
+
 ## Plan: supported package managers
 
 | package manager    | exec | Operating Systems    | status |
