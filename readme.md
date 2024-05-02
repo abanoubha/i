@@ -2,6 +2,8 @@
 
 __i__ stands for __install__. You can use `i` to install any software via any package manager.
 
+THIS PRIJECT IS **DISCONTINUED** BECAUSE THERE IS "[UPT](https://github.com/sigoden/upt)" AND **NO NEED TO REINVENT THE WHEEL**.
+
 TL;DR i is an abstraction over all other package managers available on Linux/MacOS.
 
 This software is a work in progress - WIP - a.k.a It is not done yet.
