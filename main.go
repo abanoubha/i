@@ -77,6 +77,11 @@ func main() {
 		}
 	}
 
+	if len(os.Args) > 3 {
+		fmt.Printf("Wrong command.\nUsage:\n  i install vim\n  i uninstall vim\n  i info vim\n  i search vim\n  i upgrade vim\n  i upgradable\n  i list")
+		return
+	}
+
 	// // check if the app already installed
 	// path, err := exec.LookPath(t)
 	// // if errors.Is(err, exec.ErrDot) {
