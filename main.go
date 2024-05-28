@@ -1,11 +1,28 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"os/exec"
+	"runtime"
 )
 
+var operatingSystem string
+
+type packageManager struct {
+	Name string
+	Path string
+}
+
+var pm packageManager
+
 func main() {
+	// detect the OS and the PM
+	os_pm()
+
+	println("OS:", operatingSystem, "PM:", pm.Name, "PM path:", pm.Path)
+
 	if len(os.Args) == 1 {
 		fmt.Printf("i the installer v%v\nUsage:\n    i <package-name>", version)
 		return
@@ -79,21 +96,44 @@ func main() {
 		fmt.Printf("Wrong command.\nUsage:\n  i install vim\n  i uninstall vim\n  i info vim\n  i search vim\n  i upgrade vim\n  i upgradable\n  i list")
 		return
 	}
+}
 
-	// // check if the app already installed
-	// path, err := exec.LookPath(t)
-	// // if errors.Is(err, exec.ErrDot) {
-	// // 	err = nil
-	// // }
-	// // if err != nil {
-	// // 	log.Fatal(err)
-	// // }
-	// if errors.Is(err, exec.ErrNotFound) {
-	// 	searchForApp(t)
-	// 	os.Exit(0)
-	// }
+func os_pm() {
+	operatingSystem = runtime.GOOS
+	switch operatingSystem {
+	case "windows":
+		// scoop, choco or winget ?
+		fmt.Println("Running on Windows.")
+	case "darwin":
+		// brew or port ?
+		isHomebrewInstalled, path := isInstalled("brew")
+		if isHomebrewInstalled {
+			pm = packageManager{Name: "brew", Path: path}
+		} else {
+			isMacportsInstalled, path := isInstalled("port")
+			if isMacportsInstalled {
+				pm = packageManager{Name: "port", Path: path}
+			} else {
+				panic("The operating system is MacOS but neither homebrew nor macports is installed.")
+			}
+		}
+	case "linux":
+		// which distro ?
+		fmt.Println("Running on Linux.")
+	default:
+		fmt.Printf("Unknown operating system: %s\n", operatingSystem)
+	}
+}
+
+func isInstalled(pkg string) (bool, string) {
+	path, err := exec.LookPath(pkg)
+
+	if errors.Is(err, exec.ErrNotFound) {
+		return false, ""
+	}
+
 	// fmt.Println("the app you are looking for is already installed in this path", path)
-	// os.Exit(0)
+	return true, path
 }
 
 // func searchForApp(t string) {
