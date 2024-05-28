@@ -10,6 +10,16 @@ This software is a work in progress - WIP - a.k.a It is not done yet.
 
 If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. But if you use __i__, it will be always the same.
 
+## Commands
+
+```sh
+# grab deps/libs, then build the binary/executable and call it 'i'
+go mod tidy && go build -o i .
+
+# run the program
+./i
+```
+
 ## i wizard
 
 - search for the_term
