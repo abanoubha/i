@@ -10,7 +10,9 @@ This software is a work in progress - WIP - a.k.a It is not done yet.
 
 If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. But if you use __i__, it will be always the same.
 
-## Commands
+## Install 'i'
+
+### build the project from source
 
 ```sh
 # grab deps/libs, then build the binary/executable and call it 'i'
@@ -19,6 +21,10 @@ go mod tidy && go build -o i .
 # run the program
 ./i
 ```
+
+### latest GitHub release binary
+
+TODO: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 
 ## i wizard
 
