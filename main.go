@@ -5,8 +5,6 @@ import (
 	"os"
 )
 
-const version = "0.1.0"
-
 func main() {
 	if len(os.Args) == 1 {
 		fmt.Printf("i the installer v%v\nUsage:\n    i <package-name>", version)
