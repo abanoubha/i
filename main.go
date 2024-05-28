@@ -27,6 +27,9 @@ func main() {
 		case "install", "add":
 			fmt.Println("No package/app specified.\nUsage:\n  i install vim\n  or\n  i add vim")
 			return
+		case "uninstall", "remove", "rm":
+			fmt.Println("No package/app specified to be uninstalled/removed.\nUsage:\n  i uninstall vim\n  or\n  i remove vim\n  or\n  i rm vim")
+			return
 		case "search", "find":
 			fmt.Println("No package/app specified to search for.\nUsage:\n  i search vim\n  or\n  i find vim")
 			return
