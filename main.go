@@ -21,7 +21,7 @@ func main() {
 		case "help", "--help", "-h":
 			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
 			return
-		case "info":
+		case "info", "show":
 			fmt.Printf("No package/app specified to show info about.\nUsage:\n  i info vim")
 			return
 		case "update", "upgrade", "up":
@@ -53,7 +53,7 @@ func main() {
 
 	if len(os.Args) == 3 {
 		switch os.Args[1] {
-		case "info":
+		case "info", "show":
 			fmt.Printf("showing info about %v", os.Args[2])
 			return
 		case "update", "upgrade", "up":
