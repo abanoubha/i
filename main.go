@@ -26,6 +26,7 @@ func main() {
 			return
 		case "install", "add":
 			fmt.Println("No package/app specified.\nUsage:\n  i install vim\n  or\n  i add vim")
+			return
 		default:
 			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
 			return
