@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -102,7 +103,7 @@ func os_pm() {
 	operatingSystem = runtime.GOOS
 	switch operatingSystem {
 	case "windows":
-		// scoop, choco or winget ?
+		// TODO: scoop, choco or winget ?
 		fmt.Println("Running on Windows.")
 	case "darwin":
 		// brew or port ?
@@ -119,7 +120,25 @@ func os_pm() {
 		}
 	case "linux":
 		// which distro ?
-		fmt.Println("Running on Linux.")
+		type OsRelease struct {
+			ID   string `json:"ID"`
+			Name string `json:"NAME"`
+		}
+
+		data, err := os.ReadFile("/etc/os-release")
+		if err != nil {
+			fmt.Println("Failed to read /etc/os-release:", err)
+		}
+
+		var osRelease OsRelease
+		err = json.Unmarshal(data, &osRelease)
+		if err != nil {
+			fmt.Println("Failed to unmarshal /etc/os-release:", err)
+		}
+		// TODO: which package manager ?
+		fmt.Printf("Distribution ID: %s\n", osRelease.ID)
+		fmt.Printf("Distribution Name: %s\n", osRelease.Name)
+
 	default:
 		fmt.Printf("Unknown operating system: %s\n", operatingSystem)
 	}
