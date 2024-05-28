@@ -17,9 +17,18 @@ func main() {
 		return
 	}
 
-	if len(os.Args) > 2 {
-		fmt.Println("i the installer can not insall more than one package/app at once")
-		os.Exit(1)
+	if len(os.Args) == 2 {
+		switch os.Args[1] {
+		case "version":
+			fmt.Printf("i the installer v%v", version)
+			return
+		case "help":
+			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
+			return
+		default:
+			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
+			return
+		}
 	}
 
 	t := os.Args[1]
