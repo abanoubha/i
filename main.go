@@ -36,6 +36,9 @@ func main() {
 		case "search", "find":
 			fmt.Println("No package/app specified to search for.\nUsage:\n  i search vim\n  or\n  i find vim")
 			return
+		case "updateable", "updatable", "upgradeable", "upgradable":
+			fmt.Println("List all apps/packages with new version releases:\n  vim\n  neovim\n  apt\n  pacman")
+			return
 		default:
 			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
 			return
