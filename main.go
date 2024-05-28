@@ -51,6 +51,32 @@ func main() {
 		}
 	}
 
+	if len(os.Args) == 3 {
+		switch os.Args[1] {
+		case "info":
+			fmt.Printf("showing info about %v", os.Args[2])
+			return
+		case "update", "upgrade", "up":
+			fmt.Printf("upgrading %v...", os.Args[2])
+			return
+		case "install", "add":
+			fmt.Printf("installing %v...", os.Args[2])
+			return
+		case "uninstall", "remove", "rm":
+			fmt.Printf("uninstalling %v...", os.Args[2])
+			return
+		case "reinstall":
+			fmt.Printf("reinstalling %v...", os.Args[2])
+			return
+		case "search", "find":
+			fmt.Printf("Here are the packages/apps we can find after searching for %v.\n  x: description 1\n  y: description 2\n  z: description 3", os.Args[2])
+			return
+		default:
+			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
+			return
+		}
+	}
+
 	// // check if the app already installed
 	// path, err := exec.LookPath(t)
 	// // if errors.Is(err, exec.ErrDot) {
