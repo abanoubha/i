@@ -1,1 +1,6 @@
+# executables
 i
+main
+
+# macOS specific files
+.DS_Store
