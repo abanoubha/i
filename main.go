@@ -136,6 +136,9 @@ func os_pm() {
 			fmt.Println("Failed to unmarshal /etc/os-release:", err)
 		}
 		// TODO: which package manager ?
+		// is flatpak ?
+		// else, is snap ?
+		// else, is distro-specific pm ?
 		fmt.Printf("Distribution ID: %s\n", osRelease.ID)
 		fmt.Printf("Distribution Name: %s\n", osRelease.Name)
 
