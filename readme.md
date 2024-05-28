@@ -214,3 +214,4 @@ brew list [FORMULA|CASK...]
 
 - [x] check if the package/app/program is already installed and executable/callable
 - [x] support search via homebrew
+- [ ] specify the package manager
