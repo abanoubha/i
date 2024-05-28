@@ -216,3 +216,4 @@ brew list [FORMULA|CASK...]
 - [x] support search via homebrew
 - [ ] check if the input args are valid (a-zA-Z0-9_-@)
 - [ ] specify the package manager
+- [ ] emulate another package manager
