@@ -22,7 +22,7 @@ func main() {
 			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
 			return
 		case "update", "upgrade", "up":
-			fmt.Println("upgrading...")
+			fmt.Println("upgrading all installed apps...")
 			return
 		default:
 			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
