@@ -21,6 +21,9 @@ func main() {
 		case "help", "--help", "-h":
 			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
 			return
+		case "info":
+			fmt.Printf("No package/app specified to show info about.\nUsage:\n  i info vim")
+			return
 		case "update", "upgrade", "up":
 			fmt.Println("upgrading all installed apps...")
 			return
