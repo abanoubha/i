@@ -19,10 +19,10 @@ func main() {
 
 	if len(os.Args) == 2 {
 		switch os.Args[1] {
-		case "version":
+		case "version", "--version", "-v":
 			fmt.Printf("i the installer v%v", version)
 			return
-		case "help":
+		case "help", "--help", "-h":
 			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
 			return
 		default:
