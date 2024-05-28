@@ -9,12 +9,12 @@ import (
 	"strings"
 )
 
-// i vim
-// go run . vim
+const version = "0.1.0"
+
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("i the installer\nUsage\ni <package-name>")
-		os.Exit(1)
+	if len(os.Args) == 1 {
+		fmt.Printf("i the installer v%v\nUsage:\n    i <package-name>", version)
+		return
 	}
 
 	if len(os.Args) > 2 {
