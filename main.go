@@ -1,12 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
 	"os/exec"
+	"regexp"
 	"runtime"
+	"strings"
 )
 
 var operatingSystem string
@@ -19,83 +20,79 @@ type packageManager struct {
 var pm packageManager
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Printf("i the installer v%v\nUsage:\n    i install <package-name>\n", version)
+		return
+	}
+
 	// detect the OS and the PM
 	os_pm()
 
-	println("OS:", operatingSystem, "PM:", pm.Name, "PM path:", pm.Path)
-
-	if len(os.Args) == 1 {
-		fmt.Printf("i the installer v%v\nUsage:\n    i <package-name>", version)
-		return
+	if pm.Name == "" {
+		fmt.Println("No supported package manager found.")
+		os.Exit(1)
 	}
 
-	if len(os.Args) == 2 {
-		switch os.Args[1] {
-		case "version", "--version", "-v":
-			fmt.Printf("i the installer v%v", version)
-			return
-		case "help", "--help", "-h":
-			fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim")
-			return
-		case "info", "show":
-			fmt.Printf("No package/app specified to show info about.\nUsage:\n  i info vim")
-			return
-		case "update", "upgrade", "up":
-			fmt.Println("upgrading all installed apps...")
-			return
-		case "install", "add":
-			fmt.Println("No package/app specified.\nUsage:\n  i install vim\n  or\n  i add vim")
-			return
-		case "uninstall", "remove", "rm":
-			fmt.Println("No package/app specified to be uninstalled/removed.\nUsage:\n  i uninstall vim\n  or\n  i remove vim\n  or\n  i rm vim")
-			return
-		case "reinstall":
-			fmt.Println("No package/app specified to be reinstalled.\nUsage:\n  i reinstall vim")
-			return
-		case "search", "find":
-			fmt.Println("No package/app specified to search for.\nUsage:\n  i search vim\n  or\n  i find vim")
-			return
-		case "updateable", "updatable", "upgradeable", "upgradable":
-			fmt.Println("List all apps/packages with new version releases:\n  vim\n  neovim\n  apt\n  pacman")
-			return
-		case "list", "installed":
-			fmt.Println("List all installed apps/packages:\n  vim\n  neovim\n  xz\n  curl")
-			return
-		default:
-			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
+	// fmt.Println("DEBUG: Using PM:", pm.Name)
+
+	action := os.Args[1]
+	var pkgName string
+	if len(os.Args) > 2 {
+		pkgName = os.Args[2]
+	}
+
+	cmds, ok := pm_commands[pm.Name]
+	if !ok {
+		fmt.Printf("Configurations for package manager '%s' not found.\n", pm.Name)
+		os.Exit(1)
+	}
+
+	switch action {
+	case "version", "--version", "-v":
+		fmt.Printf("i the installer v%v\n", version)
+	case "help", "--help", "-h":
+		fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim\n")
+	case "info", "show":
+		if pkgName == "" {
+			fmt.Println("No package specified.")
 			return
 		}
-	}
-
-	if len(os.Args) == 3 {
-		switch os.Args[1] {
-		case "info", "show":
-			fmt.Printf("showing info about %v", os.Args[2])
-			return
-		case "update", "upgrade", "up":
-			fmt.Printf("upgrading %v...", os.Args[2])
-			return
-		case "install", "add":
-			fmt.Printf("installing %v...", os.Args[2])
-			return
-		case "uninstall", "remove", "rm":
-			fmt.Printf("uninstalling %v...", os.Args[2])
-			return
-		case "reinstall":
-			fmt.Printf("reinstalling %v...", os.Args[2])
-			return
-		case "search", "find":
-			fmt.Printf("Here are the packages/apps we can find after searching for %v.\n  x: description 1\n  y: description 2\n  z: description 3", os.Args[2])
-			return
-		default:
-			fmt.Printf("'%v' sub-command is not supported in 'i'.\ntry one of these commands:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim", os.Args[1])
+		executeCommand(cmds.Info, pkgName)
+	case "update", "upgrade", "up":
+		if pkgName == "" {
+			// Upgrade all
+			executeCommand(cmds.UpgradeAll, "")
+		} else {
+			executeCommand(cmds.Upgrade, pkgName)
+		}
+	case "install", "add":
+		if pkgName == "" {
+			fmt.Println("No package specified.")
 			return
 		}
-	}
-
-	if len(os.Args) > 3 {
-		fmt.Printf("Wrong command.\nUsage:\n  i install vim\n  i uninstall vim\n  i info vim\n  i search vim\n  i upgrade vim\n  i upgradable\n  i list")
-		return
+		executeCommand(cmds.Install, pkgName)
+	case "uninstall", "remove", "rm":
+		if pkgName == "" {
+			fmt.Println("No package specified.")
+			return
+		}
+		executeCommand(cmds.Uninstall, pkgName)
+	case "reinstall":
+		// Many PMs don't have a direct reinstall, so often it's install --reinstall or just install.
+		// For now we'll just try install (many PMs handle it) or we could define Reinstall in commands.
+		// Since we didn't add Reinstall to commands struct yet, let's just use Install or warn.
+		// For safety, let's warn.
+		fmt.Println("Reinstall not explicitly supported yet. Try install.")
+	case "search", "find":
+		if pkgName == "" {
+			fmt.Println("No term specified to search.")
+			return
+		}
+		executeCommand(cmds.Search, pkgName)
+	case "list", "installed":
+		executeCommand(cmds.ListInstalled, "")
+	default:
+		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
 }
 
@@ -104,9 +101,9 @@ func os_pm() {
 	switch operatingSystem {
 	case "windows":
 		// TODO: scoop, choco or winget ?
-		fmt.Println("Running on Windows.")
+		// For now, simple check like original, but we didn't populate windows commands yet except comments.
+		fmt.Println("Windows support is minimal.")
 	case "darwin":
-		// brew or port ?
 		isHomebrewInstalled, path := isInstalled("brew")
 		if isHomebrewInstalled {
 			pm = packageManager{Name: "brew", Path: path}
@@ -115,73 +112,121 @@ func os_pm() {
 			if isMacportsInstalled {
 				pm = packageManager{Name: "port", Path: path}
 			} else {
-				panic("The operating system is MacOS but neither homebrew nor macports is installed.")
+				// Fallback or just inform
 			}
 		}
 	case "linux":
-		// which distro ?
 		type OsRelease struct {
 			ID   string `json:"ID"`
 			Name string `json:"NAME"`
 		}
 
+		// Try to read /etc/os-release
+		// The standard format is key=value, not JSON usually, but many libs parse it or we can just grep.
+		// Wait, the original code used json.Unmarshal on /etc/os-release?
+		// /etc/os-release is NOT JSON. It is shell-compatible assignment.
+		// The previous coder made a mistake thinking it acts like JSON or maybe just assumed it.
+		// I will implement a simple parser for KEY=VALUE.
+
 		data, err := os.ReadFile("/etc/os-release")
 		if err != nil {
-			fmt.Println("Failed to read /etc/os-release:", err)
+			// Fallback: check for common PMs directly
+			detectCommonLinuxPMs()
+			return
 		}
 
-		var osRelease OsRelease
-		err = json.Unmarshal(data, &osRelease)
-		if err != nil {
-			fmt.Println("Failed to unmarshal /etc/os-release:", err)
+		content := string(data)
+		var id string
+		lines := strings.Split(content, "\n")
+		for _, line := range lines {
+			if strings.HasPrefix(line, "ID=") {
+				id = strings.TrimPrefix(line, "ID=")
+				id = strings.Trim(id, "\"")
+				break
+			}
 		}
-		// TODO: which package manager ?
-		// is flatpak ?
-		// else, is snap ?
-		// else, is distro-specific pm ?
-		fmt.Printf("Distribution ID: %s\n", osRelease.ID)
-		fmt.Printf("Distribution Name: %s\n", osRelease.Name)
+
+		if id != "" {
+			if val, ok := distro_pm[id]; ok {
+				// check if actually installed
+				if okP, path := isInstalled(val); okP {
+					pm = packageManager{Name: val, Path: path}
+					return
+				}
+			}
+		}
+
+		// If os-release didn't give us a working one, try fallback
+		detectCommonLinuxPMs()
 
 	default:
 		fmt.Printf("Unknown operating system: %s\n", operatingSystem)
 	}
 }
 
+func detectCommonLinuxPMs() {
+	// check order: apt, dnf, pacman, zypper, yum, apk...
+	checks := []string{"apt", "dnf", "pacman", "zypper", "yum", "apk", "xbps-install", "emerge", "nix-env"}
+	for _, p := range checks {
+		wrapperName := p
+		if p == "xbps-install" {
+			wrapperName = "xbps"
+		}
+
+		if ok, path := isInstalled(p); ok {
+			pm = packageManager{Name: wrapperName, Path: path}
+			// Map xbps-install back to "xbps" for key lookup if needed
+			if wrapperName == "xbps" {
+				// Our commands key is "xbps"
+			}
+			return
+		}
+	}
+}
+
 func isInstalled(pkg string) (bool, string) {
 	path, err := exec.LookPath(pkg)
-
 	if errors.Is(err, exec.ErrNotFound) {
 		return false, ""
 	}
-
-	// fmt.Println("the app you are looking for is already installed in this path", path)
 	return true, path
 }
 
-// func searchForApp(t string) {
-// 	// brew
-// 	_, err := exec.LookPath("brew")
-// 	if errors.Is(err, exec.ErrNotFound) {
-// 		fmt.Println("HomeBrew (brew) is not installed")
-// 	} else {
-// 		cmd := exec.Command("brew", "search", t)
-// 		// cmd.Stdin = strings.NewReader("some input")
-// 		var out strings.Builder
-// 		cmd.Stdout = &out
-// 		err := cmd.Run()
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-// 		results := strings.Split(out.String(), "\n")
+func executeCommand(template string, pkgName string) {
+	if template == "" {
+		fmt.Println("Command not defined for this package manager.")
+		return
+	}
 
-// 		fmt.Printf("%q\n", cmd)
-// 		for _, r := range results {
-// 			if r == "" {
-// 				continue
-// 			}
-// 			fmt.Printf("%q\n", r)
-// 		}
-// 	}
+	// Use regex to replace isolated "x" only (respecting word boundaries)
+	// This handles "xbps-install" (no replace) and "nixpkgs.x" (replace because . is non-word)
+	// and "install x" (replace).
+	// \b matches at word boundary.
+	re := regexp.MustCompile(`\bx\b`)
 
-// 	// apt
-// }
+	// Use ReplaceAllStringFunc to avoid interpreting $ in pkgName
+	cmdStr := re.ReplaceAllStringFunc(template, func(s string) string {
+		return pkgName
+	})
+
+	parts := strings.Fields(cmdStr)
+	if len(parts) == 0 {
+		return
+	}
+
+	head := parts[0]
+	args := parts[1:]
+
+	cmd := exec.Command(head, args...)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	if err != nil {
+		// The command itself might have failed (exit status != 0)
+		// We just exit with the same code if possible or just log
+		fmt.Printf("Error execution command: %v\n", err)
+		os.Exit(1)
+	}
+}
