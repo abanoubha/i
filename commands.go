@@ -12,7 +12,7 @@ type commands struct {
 }
 
 var pm_commands = map[string]commands{
-	"i": commands{
+	"i": {
 		Name:          "i",
 		Install:       "i install x",
 		Uninstall:     "i uninstall x",
@@ -22,7 +22,7 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "i upgrade",
 		ListInstalled: "i list",
 	},
-	"apt": commands{
+	"apt": {
 		Name:          "apt",
 		Install:       "apt install x",
 		Uninstall:     "apt remove x",
@@ -32,7 +32,7 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "apt upgrade",
 		ListInstalled: "apt list --installed", // apt list -i
 	},
-	"brew": commands{
+	"brew": {
 		Name:          "brew",
 		Install:       "brew install x",
 		Uninstall:     "brew uninstall x",
@@ -42,7 +42,7 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "brew upgrade",
 		ListInstalled: "brew list",
 	},
-	"flatpak": commands{
+	"flatpak": {
 		Name:          "flatpak",
 		Install:       "flatpak install x",
 		Uninstall:     "flatpak uninstall x",
@@ -52,7 +52,7 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "flatpak update",
 		ListInstalled: "flatpak list",
 	},
-	"snap": commands{
+	"snap": {
 		Name:          "snap",
 		Install:       "snap install --classic x", // --classic or not ?
 		Uninstall:     "snap remove x",
@@ -62,29 +62,108 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "snap refresh",
 		ListInstalled: "snap list",
 	},
-	// dnf
-	// pacman
+	"dnf": {
+		Name:          "dnf",
+		Install:       "dnf install -y x",
+		Uninstall:     "dnf remove -y x",
+		Upgrade:       "dnf upgrade -y x",
+		Search:        "dnf search x",
+		Info:          "dnf info x",
+		UpgradeAll:    "dnf upgrade -y",
+		ListInstalled: "dnf list installed",
+	},
+	"pacman": {
+		Name:          "pacman",
+		Install:       "pacman -S --noconfirm x",
+		Uninstall:     "pacman -Rs --noconfirm x",
+		Upgrade:       "pacman -Syu --noconfirm x", // Upgrade specific pkg and system? Usually just -S to reinstall/upgrade specific
+		Search:        "pacman -Ss x",
+		Info:          "pacman -Qi x",
+		UpgradeAll:    "pacman -Syu --noconfirm",
+		ListInstalled: "pacman -Q",
+	},
+	"yum": {
+		Name:          "yum",
+		Install:       "yum install -y x",
+		Uninstall:     "yum remove -y x",
+		Upgrade:       "yum update -y x",
+		Search:        "yum search x",
+		Info:          "yum info x",
+		UpgradeAll:    "yum update -y",
+		ListInstalled: "yum list installed",
+	},
+	"zypper": {
+		Name:          "zypper",
+		Install:       "zypper install -n x",
+		Uninstall:     "zypper remove -n x",
+		Upgrade:       "zypper update -n x",
+		Search:        "zypper search x",
+		Info:          "zypper info x",
+		UpgradeAll:    "zypper update -n",
+		ListInstalled: "zypper se --installed-only",
+	},
+	"apk": {
+		Name:          "apk",
+		Install:       "apk add x",
+		Uninstall:     "apk del x",
+		Upgrade:       "apk add --upgrade x",
+		Search:        "apk search x",
+		Info:          "apk info x",
+		UpgradeAll:    "apk upgrade",
+		ListInstalled: "apk info",
+	},
+	"xbps": {
+		Name:          "xbps",
+		Install:       "xbps-install -y x",
+		Uninstall:     "xbps-remove -y x",
+		Upgrade:       "xbps-install -u x",
+		Search:        "xbps-query -Rs x",
+		Info:          "xbps-query -R x", // Remote info? or local -f? assuming remote
+		UpgradeAll:    "xbps-install -Suy",
+		ListInstalled: "xbps-query -l",
+	},
+	"emerge": {
+		Name:          "emerge",
+		Install:       "emerge x",
+		Uninstall:     "emerge -C x",
+		Upgrade:       "emerge -u x",
+		Search:        "emerge -s x",
+		Info:          "emerge -S x",
+		UpgradeAll:    "emerge -uDN @world",
+		ListInstalled: "qlist -I", // needs portage-utils potentially
+	},
+	"nix-env": {
+		Name:          "nix-env",
+		Install:       "nix-env -iA nixpkgs.x",
+		Uninstall:     "nix-env -e x",
+		Upgrade:       "nix-env -u x",
+		Search:        "nix-env -qaP x",
+		Info:          "nix-env -qa --description x",
+		UpgradeAll:    "nix-env -u",
+		ListInstalled: "nix-env -q",
+	},
+	"pkg": {
+		Name:          "pkg",
+		Install:       "pkg install -y x",
+		Uninstall:     "pkg delete -y x",
+		Upgrade:       "pkg upgrade -y x",
+		Search:        "pkg search x",
+		Info:          "pkg info x",
+		UpgradeAll:    "pkg upgrade -y",
+		ListInstalled: "pkg info",
+	},
 	// winget
 	// scoop
 	// choco
-	// zypper
-	// yum
-	// xbps
 	// urpm
 	// slackpkg
 	// prt-get
 	// pkgman
 
-	// nix-env
-
-	// pkg //?
 	// pkg (of termux)
 	// opkg
 	// eopkg
 
 	// guix
-	// emerge
 	// cards
-
-	// apk
 }
