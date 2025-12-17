@@ -82,6 +82,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "dnf upgrade -y",
 		ListInstalled: "dnf list installed",
 	},
+	"rpm": {
+		Name:          "rpm",
+		Install:       "rpm -i x",
+		Uninstall:     "rpm -e x",
+		Upgrade:       "rpm -U x",
+		Search:        "rpm -q x",
+		Info:          "rpm -q x",
+		UpgradeAll:    "rpm -Uvh x",
+		ListInstalled: "rpm -qa",
+	},
 	"pacman": {
 		Name:          "pacman",
 		Install:       "pacman -S --noconfirm x",
