@@ -224,8 +224,8 @@ func getOSReleaseID() string {
 		return ""
 	}
 	content := string(data)
-	lines := strings.Split(content, "\n")
-	for _, line := range lines {
+	lines := strings.SplitSeq(content, "\n")
+	for line := range lines {
 		if strings.HasPrefix(line, "ID=") {
 			id := strings.TrimPrefix(line, "ID=")
 			return strings.Trim(id, "\"")
