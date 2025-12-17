@@ -12,6 +12,7 @@
   - Or create a symlink like this `ln -s /usr/bin/i /usr/local/bin/apt`, then use `apt info vim` to see info about vim using the apt package manager through the i symlink.   
 - feature: verbose output (e.g. `i -v vim` or `i --verbose vim`)
 - check if the input args are valid (a-zA-Z0-9_-@)
+- Supported package managers: apk, apt, brew, cards, choco, dnf, emerge, eopkg, flatpak, guix, nix-env, opkg, pacman, pkg, pkgman, prt-get, scoop, slackpkg, snap, urpm, winget, xbps, yum, zypper
 
 ## next 
 
