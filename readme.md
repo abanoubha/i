@@ -4,11 +4,9 @@ __i__ stands for __install__. You can use `i` to install any software via any pa
 
 TL;DR i is an abstraction over all other package managers available on Linux/MacOS.
 
-This software is a work in progress - WIP - a.k.a It is not done yet.
-
 ## Why ?
 
-If you used to **apt** or **brew**, and need to use **dnf** or **swupd**. It is hard sometimes. But if you use __i__, it will be always the same.
+If you used to __apt__ or __brew__, and need to use __dnf__ or __swupd__. It is hard sometimes. But if you use __i__, it will be always the same.
 
 ## Install 'i'
 
@@ -169,7 +167,7 @@ i --brew info vim
 
 ### Force `i` to use a specific package manager
 
-You can force `i` to use a specific package manager by **aliasing** `i` to the package manager name or by **symlinking** `i` to the package manager name. 
+You can force `i` to use a specific package manager by __aliasing__ `i` to the package manager name or by __symlinking__ `i` to the package manager name.
 
 - aliasing `i` to a package manager:
 
