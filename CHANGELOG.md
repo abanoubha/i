@@ -1,10 +1,6 @@
 # change log for i
 
-## v0.1.0
-
-- barebone Go project
-
-## v25.12.17
+## v25.12.18
 
 - feature: specify a package manager in the command (e.g. `i --brew vim`)
 - feature: specify a package manager by alias or symlink.
