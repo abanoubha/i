@@ -14,10 +14,10 @@
 
 - feature: support rpm, port (macports)
 - refactor: efficient and more idiomatic Go code
+- feature: check if the package/app/program is already installed and executable or callable. This is to prevent installing a package that is already installed via another package manager. For example, prevent installing vim by apt if vim is already installed by snap.
 
 ## next 
 
-- check if the package/app/program is already installed and executable/callable.
 - always update the local index of packages before running any command.
 - Conflict Resolution: Detecting if a tool is already installed by another manager.
 - update/upgrade all packages will run **all** found package managers.
