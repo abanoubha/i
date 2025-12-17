@@ -16,5 +16,6 @@
 
 - always update the local index of packages before running any command.
 - Conflict Resolution: Detecting if a tool is already installed by another manager.
+- update/upgrade all packages will run **all** found package managers.
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 - TUI : type `vim` -> searching -> choosing it -> installing it.
