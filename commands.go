@@ -232,8 +232,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "opkg upgrade",
 		ListInstalled: "opkg list-installed",
 	},
-	// eopkg
-
+	"eopkg": {
+		Name:          "eopkg",
+		Install:       "eopkg install x",
+		Uninstall:     "eopkg remove x",
+		Upgrade:       "eopkg upgrade x",
+		Search:        "eopkg search x",
+		Info:          "eopkg info x",
+		UpgradeAll:    "eopkg upgrade",
+		ListInstalled: "eopkg list-installed",
+	},
 	// guix
 	// cards
 }

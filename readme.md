@@ -76,6 +76,7 @@ Supported package managers:
 | prt-get            |  2   | Linux                |  ✅    |
 | pkgman             |  2   | Linux                |  ✅    |
 | opkg               |  2   | Linux                |  ✅    |
+| eopkg              |  2   | Linux                |  ✅    |
 | winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ✅    |
 
