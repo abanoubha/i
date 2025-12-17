@@ -42,6 +42,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "brew upgrade",
 		ListInstalled: "brew list",
 	},
+	"port": {
+		Name:          "port",
+		Install:       "port install x",
+		Uninstall:     "port uninstall x",
+		Upgrade:       "port upgrade x",
+		Search:        "port search x",
+		Info:          "port info x",
+		UpgradeAll:    "port upgrade",
+		ListInstalled: "port installed",
+	},
 	"flatpak": {
 		Name:          "flatpak",
 		Install:       "flatpak install x",

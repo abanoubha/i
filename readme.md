@@ -53,7 +53,7 @@ Supported package managers:
 | package manager    | exec | Operating Systems    | status |
 |:------------------:|:----:|:--------------------:|:------:|
 | brew (Homebrew)    |  1   | MacOS, Linux, BSD    |  ✅    |
-| port (MacPorts)    |  1   | MacOS                |  ---   |
+| port (MacPorts)    |  1   | MacOS                |  ✅    |
 | apt                |  1   | Linux (Debian-based) |  ✅    |
 | apt-get            |  1   | Linux (Debian-based) |  apt   |
 | dnf                |  1   | Linux (Fedora)       |  ✅    |
