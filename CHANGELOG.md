@@ -16,10 +16,11 @@
 - refactor: efficient and more idiomatic Go code
 - feature: check if the package/app/program is already installed and executable or callable. This is to prevent installing a package that is already installed via another package manager. For example, prevent installing vim by apt if vim is already installed by snap. (Conflict Resolution: Detecting if a tool is already installed by another manager)
 - feature: update the local index of packages before attempting to install or update any package.
+- feature: update/upgrade all packages will run **all** found package managers.
+- feature: show all installed PMs using `pms` subcommand.
 
 ## next 
 
-- update/upgrade all packages will run **all** found package managers.
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 - TUI : type `vim` -> searching -> choosing it -> installing it.
 - State Management: Tracking installed packages across all managers in a single manifest file (like a "super-package.json").
