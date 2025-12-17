@@ -51,8 +51,8 @@ func main() {
 				return
 			default:
 				// Check for specific PM flags (e.g., --apt, --brew)
-				if strings.HasPrefix(arg, "--") {
-					pmName := strings.TrimPrefix(arg, "--")
+				if after, ok := strings.CutPrefix(arg, "--"); ok {
+					pmName := after
 					// Verify if it's a known PM
 					if _, ok := pm_commands[pmName]; ok {
 						forcedPM = pmName
