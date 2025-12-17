@@ -10,7 +10,11 @@ import (
 	"strings"
 )
 
-var operatingSystem string
+var (
+	operatingSystem string
+	verbose         bool
+	forcedPM        string
+)
 
 type packageManager struct {
 	Name string
@@ -21,24 +25,80 @@ var pm packageManager
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Printf("i the installer v%v\nUsage:\n    i install <package-name>\n", version)
+		printUsage()
 		return
 	}
 
-	// detect the OS and the PM
-	os_pm()
+	// Parse arguments
+	args := os.Args[1:]
+	var action string
+	var pkgName string
+
+	// Simple custom parsing to handle flags mixed with args
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		if strings.HasPrefix(arg, "-") {
+			switch arg {
+			case "--verbose", "-v":
+				verbose = true
+			case "--help", "-h":
+				printUsage()
+				return
+			case "--version":
+				fmt.Printf("i the installer v%v\n", version)
+				return
+			default:
+				// Check for specific PM flags (e.g., --apt, --brew)
+				if strings.HasPrefix(arg, "--") {
+					pmName := strings.TrimPrefix(arg, "--")
+					// Verify if it's a known PM
+					if _, ok := pm_commands[pmName]; ok {
+						forcedPM = pmName
+						continue
+					}
+				}
+				fmt.Printf("Unknown flag: %s\n", arg)
+				return
+			}
+		} else {
+			if action == "" {
+				action = arg
+			} else if pkgName == "" {
+				pkgName = arg
+			} else {
+				// Multiple packages or extra args?
+				// For now, let's just append to pkgName or warn.
+				// The original design seemed to handle one package.
+				// Let's keep it simple for now, maybe append to allow "i install x y" later?
+				// But existing logic uses pkgName as a single string replacement.
+				fmt.Printf("Too many arguments: %s\n", arg)
+				return
+			}
+		}
+	}
+
+	if action == "" {
+		printUsage()
+		return
+	}
+
+	// Detect OS and PM
+	detectPM()
 
 	if pm.Name == "" {
 		fmt.Println("No supported package manager found.")
 		os.Exit(1)
 	}
 
-	// fmt.Println("DEBUG: Using PM:", pm.Name)
+	if verbose {
+		fmt.Printf("Using package manager: %s\n", pm.Name)
+	}
 
-	action := os.Args[1]
-	var pkgName string
-	if len(os.Args) > 2 {
-		pkgName = os.Args[2]
+	if pkgName != "" {
+		if !validateInput(pkgName) {
+			fmt.Printf("Invalid package name: %s\n", pkgName)
+			os.Exit(1)
+		}
 	}
 
 	cmds, ok := pm_commands[pm.Name]
@@ -48,10 +108,6 @@ func main() {
 	}
 
 	switch action {
-	case "version", "--version", "-v":
-		fmt.Printf("i the installer v%v\n", version)
-	case "help", "--help", "-h":
-		fmt.Printf("i the abstraction over all package managers.\nUsage:\n  i install vim\n  i info vim\n  i search vim\n  i uninstall vim\n")
 	case "info", "show":
 		if pkgName == "" {
 			fmt.Println("No package specified.")
@@ -78,10 +134,7 @@ func main() {
 		}
 		executeCommand(cmds.Uninstall, pkgName)
 	case "reinstall":
-		// Many PMs don't have a direct reinstall, so often it's install --reinstall or just install.
-		// For now we'll just try install (many PMs handle it) or we could define Reinstall in commands.
-		// Since we didn't add Reinstall to commands struct yet, let's just use Install or warn.
-		// For safety, let's warn.
+		// Fallback to install for now, as existing code did
 		fmt.Println("Reinstall not explicitly supported yet. Try install.")
 	case "search", "find":
 		if pkgName == "" {
@@ -96,67 +149,45 @@ func main() {
 	}
 }
 
-func os_pm() {
+func printUsage() {
+	fmt.Printf("i the abstraction over all package managers v%v\nUsage:\n  i install vim\n  i install --verbose vim\n  i install --apt vim\n  i info vim\n  i search vim\n  i uninstall vim\n", version)
+}
+
+func validateInput(input string) bool {
+	// Allow a-z, A-Z, 0-9, _, -, @, ., +
+	// Some packages have dots (e.g. python3.8) or plus (g++)
+	match, _ := regexp.MatchString(`^[a-zA-Z0-9_\-@.+]+$`, input)
+	return match
+}
+
+func detectPM() {
+	if forcedPM != "" {
+		pm = packageManager{Name: forcedPM, Path: ""}
+		return
+	}
+
 	operatingSystem = runtime.GOOS
 	switch operatingSystem {
 	case "windows":
-		// TODO: scoop, choco or winget ?
-		// For now, simple check like original, but we didn't populate windows commands yet except comments.
 		fmt.Println("Windows support is minimal.")
 	case "darwin":
-		isHomebrewInstalled, path := isInstalled("brew")
-		if isHomebrewInstalled {
+		if ok, path := isInstalled("brew"); ok {
 			pm = packageManager{Name: "brew", Path: path}
-		} else {
-			isMacportsInstalled, path := isInstalled("port")
-			if isMacportsInstalled {
-				pm = packageManager{Name: "port", Path: path}
-			} else {
-				// Fallback or just inform
-			}
+		} else if ok, path := isInstalled("port"); ok {
+			pm = packageManager{Name: "port", Path: path}
 		}
 	case "linux":
-		type OsRelease struct {
-			ID   string `json:"ID"`
-			Name string `json:"NAME"`
-		}
-
-		// Try to read /etc/os-release
-		// The standard format is key=value, not JSON usually, but many libs parse it or we can just grep.
-		// Wait, the original code used json.Unmarshal on /etc/os-release?
-		// /etc/os-release is NOT JSON. It is shell-compatible assignment.
-		// The previous coder made a mistake thinking it acts like JSON or maybe just assumed it.
-		// I will implement a simple parser for KEY=VALUE.
-
-		data, err := os.ReadFile("/etc/os-release")
-		if err != nil {
-			// Fallback: check for common PMs directly
-			detectCommonLinuxPMs()
-			return
-		}
-
-		content := string(data)
-		var id string
-		lines := strings.Split(content, "\n")
-		for _, line := range lines {
-			if strings.HasPrefix(line, "ID=") {
-				id = strings.TrimPrefix(line, "ID=")
-				id = strings.Trim(id, "\"")
-				break
-			}
-		}
-
+		// Try parsing /etc/os-release for ID
+		id := getOSReleaseID()
 		if id != "" {
 			if val, ok := distro_pm[id]; ok {
-				// check if actually installed
 				if okP, path := isInstalled(val); okP {
 					pm = packageManager{Name: val, Path: path}
 					return
 				}
 			}
 		}
-
-		// If os-release didn't give us a working one, try fallback
+		// Fallback detection
 		detectCommonLinuxPMs()
 
 	default:
@@ -164,21 +195,31 @@ func os_pm() {
 	}
 }
 
+func getOSReleaseID() string {
+	data, err := os.ReadFile("/etc/os-release")
+	if err != nil {
+		return ""
+	}
+	content := string(data)
+	lines := strings.Split(content, "\n")
+	for _, line := range lines {
+		if strings.HasPrefix(line, "ID=") {
+			id := strings.TrimPrefix(line, "ID=")
+			return strings.Trim(id, "\"")
+		}
+	}
+	return ""
+}
+
 func detectCommonLinuxPMs() {
-	// check order: apt, dnf, pacman, zypper, yum, apk...
 	checks := []string{"apt", "dnf", "pacman", "zypper", "yum", "apk", "xbps-install", "emerge", "nix-env"}
 	for _, p := range checks {
 		wrapperName := p
 		if p == "xbps-install" {
 			wrapperName = "xbps"
 		}
-
 		if ok, path := isInstalled(p); ok {
 			pm = packageManager{Name: wrapperName, Path: path}
-			// Map xbps-install back to "xbps" for key lookup if needed
-			if wrapperName == "xbps" {
-				// Our commands key is "xbps"
-			}
 			return
 		}
 	}
@@ -198,16 +239,14 @@ func executeCommand(template string, pkgName string) {
 		return
 	}
 
-	// Use regex to replace isolated "x" only (respecting word boundaries)
-	// This handles "xbps-install" (no replace) and "nixpkgs.x" (replace because . is non-word)
-	// and "install x" (replace).
-	// \b matches at word boundary.
 	re := regexp.MustCompile(`\bx\b`)
-
-	// Use ReplaceAllStringFunc to avoid interpreting $ in pkgName
 	cmdStr := re.ReplaceAllStringFunc(template, func(s string) string {
 		return pkgName
 	})
+
+	if verbose {
+		fmt.Printf("Executing: %s\n", cmdStr)
+	}
 
 	parts := strings.Fields(cmdStr)
 	if len(parts) == 0 {
@@ -224,9 +263,9 @@ func executeCommand(template string, pkgName string) {
 
 	err := cmd.Run()
 	if err != nil {
-		// The command itself might have failed (exit status != 0)
-		// We just exit with the same code if possible or just log
-		fmt.Printf("Error execution command: %v\n", err)
+		if verbose {
+			fmt.Printf("Error executing command: %v\n", err)
+		}
 		os.Exit(1)
 	}
 }
