@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -163,6 +164,13 @@ func validateInput(input string) bool {
 func detectPM() {
 	if forcedPM != "" {
 		pm = packageManager{Name: forcedPM, Path: ""}
+		return
+	}
+
+	// Check if binary name acts as an alias
+	binName := filepath.Base(os.Args[0])
+	if _, ok := pm_commands[binName]; ok && binName != "i" {
+		pm = packageManager{Name: binName, Path: ""}
 		return
 	}
 
