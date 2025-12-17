@@ -176,3 +176,20 @@ ln -s /usr/bin/i /usr/local/bin/apt
 ```
 
 So, you can use `apt install vim` to install vim using the apt package manager through the i alias/symlink.
+
+## build executables for all operating systems / platforms
+
+```sh
+# linux 64 bit (current os)
+go build -o i-linux-x64 .
+# linux 64 bit (if not working on Linux distro)
+GOOS=linux GOARCH=amd64 go build -o i-linux-x64 .
+
+# windows 64 bit
+GOOS=windows GOARCH=amd64 go build -o i-windows-x64.exe .
+
+# macOS M-series
+GOOS=darwin GOARCH=arm64 go build -o i-macos-apple-silicon .
+# macOS intel 64 bit
+GOOS=darwin GOARCH=amd64 go build -o i-macos-x64 .
+```
