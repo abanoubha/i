@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"runtime"
+	"sort"
 	"strings"
 )
 
@@ -109,6 +110,20 @@ func main() {
 	}
 
 	switch action {
+	case "pmlist":
+		var pms []string
+		for k := range pm_commands {
+			if k == "i" {
+				continue
+			}
+			pms = append(pms, k)
+		}
+		sort.Strings(pms)
+		fmt.Println("Supported package managers:")
+		for _, pm := range pms {
+			fmt.Println("- " + pm)
+		}
+		return
 	case "info", "show":
 		if pkgName == "" {
 			fmt.Println("No package specified.")
