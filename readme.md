@@ -74,6 +74,7 @@ Supported package managers:
 | urpm               |  2   | Linux                |  ✅    |
 | slackpkg           |  2   | Linux                |  ✅    |
 | prt-get            |  2   | Linux                |  ✅    |
+| pkgman             |  2   | Linux                |  ✅    |
 | winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ✅    |
 

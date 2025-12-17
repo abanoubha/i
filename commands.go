@@ -212,7 +212,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "prt-get upgrade",
 		ListInstalled: "prt-get list installed",
 	},
-	// pkgman
+	"pkgman": {
+		Name:          "pkgman",
+		Install:       "pkgman -S x",
+		Uninstall:     "pkgman -R x",
+		Upgrade:       "pkgman -Syu x",
+		Search:        "pkgman -Ss x",
+		Info:          "pkgman -Qi x",
+		UpgradeAll:    "pkgman -Syu",
+		ListInstalled: "pkgman -Q",
+	},
 
 	// pkg (of termux)
 	// opkg
