@@ -116,7 +116,7 @@ i update vim
 # or
 i up vim
 
-# upgrade all packages
+# upgrade all packages installed by all found package managers
 i upgrade
 # or
 i update
