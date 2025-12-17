@@ -11,9 +11,11 @@
   - For example, alias i to apt like this `alias apt=/usr/bin/i`, then use `apt info vim` to see info about vim using the apt package manager through the i alias.
   - Or create a symlink like this `ln -s /usr/bin/i /usr/local/bin/apt`, then use `apt info vim` to see info about vim using the apt package manager through the i symlink.   
 - feature: verbose output (e.g. `i -v vim` or `i --verbose vim`)
+- check if the input args are valid (a-zA-Z0-9_-@)
 
 ## next 
 
+- check if the package/app/program is already installed and executable/callable.
 - always update the local index of packages before running any command.
 - Conflict Resolution: Detecting if a tool is already installed by another manager.
 - update/upgrade all packages will run **all** found package managers.
