@@ -69,6 +69,7 @@ Supported package managers:
 | flatpak            |  2   | Linux                |  ✅    |
 | pkg                |  2   | Linux                |  ✅    |
 | yum                |  2   | Linux                |  ✅    |
+| scoop              |  2   | Linux                |  ✅    |
 | pkgsrc             |  2   | Linux                |  ---   |
 | winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ---   |

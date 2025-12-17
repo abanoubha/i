@@ -162,7 +162,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "winget upgrade",
 		ListInstalled: "winget list",
 	},
-	// scoop
+	"scoop": {
+		Name:          "scoop",
+		Install:       "scoop install x",
+		Uninstall:     "scoop uninstall x",
+		Upgrade:       "scoop update x",
+		Search:        "scoop search x",
+		Info:          "scoop info x",
+		UpgradeAll:    "scoop update",
+		ListInstalled: "scoop list",
+	},
 	// choco
 	// urpm
 	// slackpkg
