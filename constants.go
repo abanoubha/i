@@ -1,6 +1,6 @@
 package main
 
-const version = "0.1.0"
+const version = "25.12.17"
 
 var distro_pm = map[string]string{
 	"clearlinux": "swupd",
