@@ -59,7 +59,6 @@ Supported package managers:
 | dnf                |  1   | Linux (Fedora)       |  ✅    |
 | nix-env            |  1   | Linux, NixOS         |  ✅    |
 | pacman             |  1   | Linux                |  ✅    |
-| swupd              |  1   | Linux                |  ---   |
 | rpm                |  1   | Linux                |  ---   |
 | emerge             |  1   | Linux                |  ✅    |
 | zypper             |  1   | Linux                |  ✅    |
