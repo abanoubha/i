@@ -24,6 +24,7 @@ type packageManager struct {
 }
 
 var pm packageManager
+var detectedPMs []packageManager
 
 func main() {
 	if len(os.Args) < 2 {
@@ -138,6 +139,12 @@ func main() {
 			fmt.Println("- " + pm)
 		}
 		return
+	case "pms":
+		fmt.Println("Available package managers:")
+		for _, p := range detectedPMs {
+			fmt.Println("- " + p.Name)
+		}
+		return
 	case "info", "show":
 		if pkgName == "" {
 			fmt.Println("No package specified.")
@@ -146,8 +153,27 @@ func main() {
 		executeCommand(cmds.Info, pkgName)
 	case "update", "upgrade", "up":
 		if pkgName == "" {
-			// Upgrade all
-			executeCommand(cmds.UpgradeAll, "")
+			// Upgrade all packages for all detected package managers
+			fmt.Println("Upgrading all packages...")
+			for _, p := range detectedPMs {
+				c, ok := pm_commands[p.Name]
+				if !ok {
+					continue
+				}
+				if verbose {
+					fmt.Printf("Upgrading packages for manager: %s\n", p.Name)
+				}
+
+				// If this is not the primary PM (which was already updated at start), update its index
+				if p.Name != pm.Name && c.UpdateIndex != "" {
+					if verbose {
+						fmt.Printf("Updating index for %s...\n", p.Name)
+					}
+					executeCommand(c.UpdateIndex, "")
+				}
+
+				executeCommand(c.UpgradeAll, "")
+			}
 		} else {
 			executeCommand(cmds.Upgrade, pkgName)
 		}
@@ -194,9 +220,24 @@ func validateInput(input string) bool {
 	return match
 }
 
+// detectCommonLinuxPMs appends all found supported package managers to detectedPMs.
+func detectCommonLinuxPMs() {
+	checks := []string{"apt", "dnf", "pacman", "snap", "flatpak", "zypper", "yum", "apk", "xbps-install", "emerge", "nix-env", "brew", "port", "winget", "choco", "scoop"}
+	for _, p := range checks {
+		wrapperName := p
+		if p == "xbps-install" {
+			wrapperName = "xbps"
+		}
+		if ok, path := isInstalled(p); ok {
+			detectedPMs = append(detectedPMs, packageManager{Name: wrapperName, Path: path})
+		}
+	}
+}
+
 func detectPM() {
 	if forcedPM != "" {
 		pm = packageManager{Name: forcedPM, Path: ""}
+		detectedPMs = append(detectedPMs, pm)
 		return
 	}
 
@@ -204,6 +245,7 @@ func detectPM() {
 	binName := filepath.Base(os.Args[0])
 	if _, ok := pm_commands[binName]; ok && binName != "i" {
 		pm = packageManager{Name: binName, Path: ""}
+		detectedPMs = append(detectedPMs, pm)
 		return
 	}
 
@@ -211,11 +253,13 @@ func detectPM() {
 	switch operatingSystem {
 	case "windows":
 		fmt.Println("Windows support is minimal.")
+		// Potential windows logic could be added here similar to linux/mac
 	case "darwin":
 		if ok, path := isInstalled("brew"); ok {
-			pm = packageManager{Name: "brew", Path: path}
-		} else if ok, path := isInstalled("port"); ok {
-			pm = packageManager{Name: "port", Path: path}
+			detectedPMs = append(detectedPMs, packageManager{Name: "brew", Path: path})
+		}
+		if ok, path := isInstalled("port"); ok {
+			detectedPMs = append(detectedPMs, packageManager{Name: "port", Path: path})
 		}
 	case "linux":
 		// Try parsing /etc/os-release for ID
@@ -223,16 +267,33 @@ func detectPM() {
 		if id != "" {
 			if val, ok := distro_pm[id]; ok {
 				if okP, path := isInstalled(val); okP {
-					pm = packageManager{Name: val, Path: path}
-					return
+					detectedPMs = append(detectedPMs, packageManager{Name: val, Path: path})
+					// Don't return, continue to check common ones for co-existing PMs (e.g. invalidating assumption that we only have one)
+					// Actually, distro_pm often maps to the MAIN system PM.
+					// We should probably check common ones too, but deduplicate?
+					// For now, let's keep the logic simple: verify distro PM, then check common ones.
 				}
 			}
 		}
-		// Fallback detection
 		detectCommonLinuxPMs()
 
 	default:
 		fmt.Printf("Unknown operating system: %s\n", operatingSystem)
+	}
+
+	// Deduplicate detectedPMs based on Name
+	uniquePMs := make([]packageManager, 0, len(detectedPMs))
+	seen := make(map[string]bool)
+	for _, p := range detectedPMs {
+		if !seen[p.Name] {
+			seen[p.Name] = true
+			uniquePMs = append(uniquePMs, p)
+		}
+	}
+	detectedPMs = uniquePMs
+
+	if len(detectedPMs) > 0 {
+		pm = detectedPMs[0]
 	}
 }
 
@@ -250,20 +311,6 @@ func getOSReleaseID() string {
 		}
 	}
 	return ""
-}
-
-func detectCommonLinuxPMs() {
-	checks := []string{"apt", "dnf", "pacman", "zypper", "yum", "apk", "xbps-install", "emerge", "nix-env"}
-	for _, p := range checks {
-		wrapperName := p
-		if p == "xbps-install" {
-			wrapperName = "xbps"
-		}
-		if ok, path := isInstalled(p); ok {
-			pm = packageManager{Name: wrapperName, Path: path}
-			return
-		}
-	}
 }
 
 func isInstalled(pkg string) (bool, string) {
