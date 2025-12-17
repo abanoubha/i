@@ -172,7 +172,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "scoop update",
 		ListInstalled: "scoop list",
 	},
-	// choco
+	"choco": {
+		Name:          "choco",
+		Install:       "choco install x",
+		Uninstall:     "choco uninstall x",
+		Upgrade:       "choco upgrade x",
+		Search:        "choco search x",
+		Info:          "choco info x",
+		UpgradeAll:    "choco upgrade",
+		ListInstalled: "choco list",
+	},
 	// urpm
 	// slackpkg
 	// prt-get

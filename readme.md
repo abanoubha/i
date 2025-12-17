@@ -72,7 +72,7 @@ Supported package managers:
 | scoop              |  2   | Linux                |  ✅    |
 | pkgsrc             |  2   | Linux                |  ---   |
 | winget             |  2   | Windows              |  ✅    |
-| choco (Chocolatey) |  2   | Windows              |  ---   |
+| choco (Chocolatey) |  2   | Windows              |  ✅    |
 
 \* `exec` stands for __execution priority__.
 \* `pm` stands for __package manager__.
