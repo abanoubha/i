@@ -203,7 +203,17 @@ func main() {
 		}
 		executeCommand(cmds.Search, pkgName)
 	case "list", "installed":
-		executeCommand(cmds.ListInstalled, "")
+		for i, p := range detectedPMs {
+			c, ok := pm_commands[p.Name]
+			if !ok {
+				continue
+			}
+			if i > 0 {
+				fmt.Println()
+			}
+			fmt.Printf("Listing installed packages for %s:\n", p.Name)
+			executeCommand(c.ListInstalled, "")
+		}
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
