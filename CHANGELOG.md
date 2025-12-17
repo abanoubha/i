@@ -10,6 +10,11 @@
 - check if the input args are valid (a-zA-Z0-9_-@)
 - Supported package managers: apk, apt, brew, cards, choco, dnf, emerge, eopkg, flatpak, guix, nix-env, opkg, pacman, pkg, pkgman, prt-get, scoop, slackpkg, snap, urpm, winget, xbps, yum, zypper
 
+## v25.12.19
+
+- feature: support rpm, port (macports)
+- refactor: efficient and more idiomatic Go code
+
 ## next 
 
 - check if the package/app/program is already installed and executable/callable.
