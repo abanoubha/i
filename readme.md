@@ -8,172 +8,27 @@ This software is a work in progress - WIP - a.k.a It is not done yet.
 
 ## Why ?
 
-If you used to apt or brew, and need to use dnf or swupd it is hard sometimes. But if you use __i__, it will be always the same.
+If you used to **apt** or **brew**, and need to use **dnf** or **swupd**. It is hard sometimes. But if you use __i__, it will be always the same.
 
 ## Install 'i'
 
-### build the project from source
+Use Go to install i:
 
 ```sh
-# grab deps/libs, then build the binary/executable and call it 'i'
+go install github.com/abanoubha/i@latest
+```
+
+Build the project from source:
+
+```sh
+# get project deps/libs, then build the binary/executable and call it 'i'
 go mod tidy && go build -o i .
 
 # run the program
 ./i
 ```
 
-### latest GitHub release binary
-
-TODO: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
-
-## i wizard
-
-- search for the_term
-- show search results
-- choose the package/app/program
-- use default package manager for the distro, or suggest another one to the user to choose (install via blah-blah or do not install blah-blah-app).
-- run the needed commands, give realtime feedback to user.
-
-## Available As
-
-- CLI : `i vim` to istall __vim__.
-- GUI : `vim` then click search.
-
-## Plan: commands
-
-| command  | meaning |
-|:--------|:--------|
-| `i search x` | search for x |
-| `i install x` | install x |
-| `i add x` | install x |
-| `i uninstall x` | uninstall x |
-| `i remove x` | uninstall x |
-| `i reinstall x` | uninstall x, then install it |
-| `i info x` | show info about x |
-| `i upgrade x` | upgrade x to the newer version if available |
-| `i update x` | upgrade x to the newer version if available |
-| `i up x` | upgrade x to the newer version if available |
-| `i upgrade` | upgrade all to the newer version if available |
-| `i update` | upgrade all to the newer version if available |
-| `i up` | upgrade all to the newer version if available |
-| `i updateable` | list all upgradeable apps/programs |
-| `i updatable` | list all upgradeable apps/programs |
-| `i upgradeable` | list all upgradeable apps/programs |
-| `i upgradable` | list all upgradeable apps/programs |
-
-\* updating the local index of packages is always run first. No need to run it manually.
-
-```sh
-$ i search x # search for x
-searching for x ...
-
-$ i install x # install x
-installing x ...
-
-$ i add x # install x
-installing x ...
-
-$ i uninstall x # uninstall x
-uninstalling x ...
-
-$ i remove x # uninstall x
-uninstalling x ...
-
-$ i reinstall x # uninstall x, then install it
-uninstalling x ... DONE
-installing x ... DONE
-
-$ i info x # show info about x
-x is blah blah blah
-
-$ i upgrade x # upgrade x to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-
-$ i update x # upgrade x to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-
-$ i up x # upgrade x to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-
-$ i upgrade # upgrade all to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-upgrading y from v0.1.0 to v0.6.0
-upgrading z from v1.3.0 to v1.3.2
-
-$ i update # upgrade all to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-upgrading y from v0.1.0 to v0.6.0
-upgrading z from v1.3.0 to v1.3.2
-
-
-$ i up # upgrade all to the newer version if available
-upgrading x from v1.0.0 to v1.1.0
-upgrading y from v0.1.0 to v0.6.0
-upgrading z from v1.3.0 to v1.3.2
-
-$ i updateable # list all upgradeable apps/programs
-x v1.2.1 >> v1.2.2
-y v0.5.1 >> v1.0.2
-z v1.2.3 >> v2.0.0
-
-$ i updatable # list all upgradeable apps/programs
-x v1.2.1 >> v1.2.2
-y v0.5.1 >> v1.0.2
-z v1.2.3 >> v2.0.0
-
-$ i upgradeable # list all upgradeable apps/programs
-x v1.2.1 >> v1.2.2
-y v0.5.1 >> v1.0.2
-z v1.2.3 >> v2.0.0
-
-$ i upgradable # list all upgradeable apps/programs
-x v1.2.1 >> v1.2.2
-y v0.5.1 >> v1.0.2
-z v1.2.3 >> v2.0.0
-
-# updating the local index of packages is always run first. No need to run it manually.
-```
-
-## Plan: Arguments
-
-### verbose output
-
-```sh
-$ i install z
-installing z ... DONE
-
-$ i install -v z
-using homebrew to install z
-    $ brew install z
-installing z ... DONE
-
-$ i install --verbose z
-using homebrew to install z
-    $ brew install z
-installing z ... DONE
-```
-
-### specify a package manager
-
-```sh
-$ i install y
-installing y ... DONE
-
-$ i install --brew y
-installing y via homebrew ... DONE
-
-$ i install --apt z
-installing z via apt ... DONE
-```
-
-### no output/script
-
-```sh
-$ i install a # nothing will be returned if successful; a.k.a os.Exit(0)
-$
-```
-
-## Plan: supported package managers
+## supported package managers
 
 | package manager    | exec | Operating Systems    | status |
 |:------------------:|:----:|:--------------------:|:------:|
@@ -198,22 +53,94 @@ $
 \* `exec` stands for __execution priority__.
 \* `pm` stands for __package manager__.
 
-## Plan: homebrew
+## How to use `i` the abstraction over all package managers
 
 ```sh
-brew search TEXT|/REGEX/
-brew info [FORMULA|CASK...]
-brew install FORMULA|CASK...
-brew update
-brew upgrade [FORMULA|CASK...]
-brew uninstall FORMULA|CASK...
-brew list [FORMULA|CASK...]
+# install a package
+i install vim
+# or
+i add vim
+
+# search for a package
+i search vim
+# or
+i find vim
+
+# show info about a package
+i info vim
+# or
+i show vim
+
+# uninstall a package
+i uninstall vim
+# or
+i remove vim
+# or
+i rm vim
+
+# upgrade a package
+i upgrade vim
+# or
+i update vim
+# or
+i up vim
+
+# upgrade all packages
+i upgrade
+# or
+i update
+# or
+i up
 ```
 
-## tasks
+You can add `--verbose` flag to get verbose output with more details like this:
 
-- [x] check if the package/app/program is already installed and executable/callable
-- [x] support search via homebrew
-- [ ] check if the input args are valid (a-zA-Z0-9_-@)
-- [ ] specify the package manager
-- [ ] emulate another package manager
+```sh
+$ sudo i --verbose install vim
+Using package manager: apt
+Executing: apt install vim
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+vim is already the newest version (2:9.1.0016-1ubuntu7.9).
+0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
+```
+
+As you can see, `--verbose` flag will show more details about the installation process like these two lines in the output above.
+
+```sh
+Using package manager: apt
+Executing: apt install vim
+```
+
+### Specify a package manager to use
+
+Force `i` to use `apt` to install `vim`:
+
+```sh
+i --apt install vim
+```
+
+Force `i` to use `brew` to get info about `vim`:
+
+```sh
+i --brew info vim
+```
+
+### Force `i` to use a specific package manager
+
+You can force `i` to use a specific package manager by **aliasing** `i` to the package manager name or by **symlinking** `i` to the package manager name. 
+
+- aliasing `i` to a package manager:
+
+```sh
+alias apt=/usr/bin/i
+```
+
+- Or create a symlink:
+
+```sh
+ln -s /usr/bin/i /usr/local/bin/apt
+```
+
+So, you can use `apt install vim` to install vim using the apt package manager through the i alias/symlink.
