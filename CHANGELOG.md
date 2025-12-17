@@ -18,12 +18,12 @@
 - feature: update the local index of packages before attempting to install or update any package.
 - feature: update/upgrade all packages will run **all** found package managers.
 - feature: show all installed PMs using `pms` subcommand.
+- feature: list all packages installed by all found package managers.
 
 ## next 
 
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 - TUI : type `vim` -> searching -> choosing it -> installing it.
-- State Management: Tracking installed packages across all managers in a single manifest file (like a "super-package.json").
 - Homebrew commands:
     ```sh
     brew search TEXT|/REGEX/
