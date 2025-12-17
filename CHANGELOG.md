@@ -24,13 +24,3 @@
 
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 - TUI : type `vim` -> searching -> choosing it -> installing it.
-- Homebrew commands:
-    ```sh
-    brew search TEXT|/REGEX/
-    brew info [FORMULA|CASK...]
-    brew install FORMULA|CASK...
-    brew update
-    brew upgrade [FORMULA|CASK...]
-    brew uninstall FORMULA|CASK...
-    brew list [FORMULA|CASK...]
-    ```
