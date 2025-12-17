@@ -192,7 +192,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "urpmi --update",
 		ListInstalled: "urpmq --list",
 	},
-	// slackpkg
+	"slackpkg": {
+		Name:          "slackpkg",
+		Install:       "slackpkg install x",
+		Uninstall:     "slackpkg remove x",
+		Upgrade:       "slackpkg upgrade x",
+		Search:        "slackpkg search x",
+		Info:          "slackpkg info x",
+		UpgradeAll:    "slackpkg upgrade",
+		ListInstalled: "slackpkg list installed",
+	},
 	// prt-get
 	// pkgman
 

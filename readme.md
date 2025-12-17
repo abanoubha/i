@@ -72,6 +72,7 @@ Supported package managers:
 | scoop              |  2   | Linux                |  ✅    |
 | pkgsrc             |  2   | Linux                |  ---   |
 | urpm               |  2   | Linux                |  ✅    |
+| slackpkg           |  2   | Linux                |  ✅    |
 | winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ✅    |
 
