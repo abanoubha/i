@@ -9,6 +9,7 @@ type commands struct {
 	Info          string
 	UpgradeAll    string
 	ListInstalled string
+	UpdateIndex   string
 }
 
 var pm_commands = map[string]commands{
@@ -31,6 +32,7 @@ var pm_commands = map[string]commands{
 		Info:          "apt show x",
 		UpgradeAll:    "apt upgrade",
 		ListInstalled: "apt list --installed", // apt list -i
+		UpdateIndex:   "apt update",
 	},
 	"brew": {
 		Name:          "brew",
@@ -41,6 +43,7 @@ var pm_commands = map[string]commands{
 		Info:          "brew info x",
 		UpgradeAll:    "brew upgrade",
 		ListInstalled: "brew list",
+		UpdateIndex:   "brew update",
 	},
 	"port": {
 		Name:          "port",
@@ -81,6 +84,7 @@ var pm_commands = map[string]commands{
 		Info:          "dnf info x",
 		UpgradeAll:    "dnf upgrade -y",
 		ListInstalled: "dnf list installed",
+		UpdateIndex:   "dnf check-update",
 	},
 	"rpm": {
 		Name:          "rpm",
@@ -101,6 +105,7 @@ var pm_commands = map[string]commands{
 		Info:          "pacman -Qi x",
 		UpgradeAll:    "pacman -Syu --noconfirm",
 		ListInstalled: "pacman -Q",
+		UpdateIndex:   "pacman -Sy",
 	},
 	"yum": {
 		Name:          "yum",
@@ -111,6 +116,7 @@ var pm_commands = map[string]commands{
 		Info:          "yum info x",
 		UpgradeAll:    "yum update -y",
 		ListInstalled: "yum list installed",
+		UpdateIndex:   "yum makecache",
 	},
 	"zypper": {
 		Name:          "zypper",
@@ -121,6 +127,7 @@ var pm_commands = map[string]commands{
 		Info:          "zypper info x",
 		UpgradeAll:    "zypper update -n",
 		ListInstalled: "zypper se --installed-only",
+		UpdateIndex:   "zypper refresh",
 	},
 	"apk": {
 		Name:          "apk",
@@ -131,6 +138,7 @@ var pm_commands = map[string]commands{
 		Info:          "apk info x",
 		UpgradeAll:    "apk upgrade",
 		ListInstalled: "apk info",
+		UpdateIndex:   "apk update",
 	},
 	"xbps": {
 		Name:          "xbps",
@@ -141,6 +149,7 @@ var pm_commands = map[string]commands{
 		Info:          "xbps-query -R x", // Remote info? or local -f? assuming remote
 		UpgradeAll:    "xbps-install -Suy",
 		ListInstalled: "xbps-query -l",
+		UpdateIndex:   "xbps-install -S",
 	},
 	"emerge": {
 		Name:          "emerge",
@@ -151,6 +160,7 @@ var pm_commands = map[string]commands{
 		Info:          "emerge -S x",
 		UpgradeAll:    "emerge -uDN @world",
 		ListInstalled: "qlist -I", // needs portage-utils potentially
+		UpdateIndex:   "emerge --sync",
 	},
 	"nix-env": {
 		Name:          "nix-env",
@@ -161,6 +171,7 @@ var pm_commands = map[string]commands{
 		Info:          "nix-env -qa --description x",
 		UpgradeAll:    "nix-env -u",
 		ListInstalled: "nix-env -q",
+		UpdateIndex:   "nix-channel --update", // or nix-env -u without args? usually channel update is needed
 	},
 	"pkg": {
 		Name:          "pkg",

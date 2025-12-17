@@ -109,6 +109,20 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Check if we should update the index
+	updateRequiredActions := map[string]bool{
+		"install": true, "add": true,
+		"update": true, "upgrade": true, "up": true,
+		"search": true, "find": true,
+	}
+
+	if cmds.UpdateIndex != "" && updateRequiredActions[action] {
+		if verbose {
+			fmt.Println("Updating local index...")
+		}
+		executeCommand(cmds.UpdateIndex, "")
+	}
+
 	switch action {
 	case "pmlist":
 		var pms []string
