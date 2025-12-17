@@ -30,25 +30,48 @@ go mod tidy && go build -o i .
 
 ## supported package managers
 
+You can list all supported package managers using `i pmlist`:
+
+```sh
+$ i pmlist
+Supported package managers:
+- apk
+- apt
+- brew
+- dnf
+- emerge
+- flatpak
+- nix-env
+- pacman
+- pkg
+- snap
+- xbps
+- yum
+- zypper
+```
+
 | package manager    | exec | Operating Systems    | status |
 |:------------------:|:----:|:--------------------:|:------:|
-| brew (Homebrew)    |  1   | MacOS, Linux, BSD    |  WIP   |
+| brew (Homebrew)    |  1   | MacOS, Linux, BSD    |  ✅    |
 | port (MacPorts)    |  1   | MacOS                |  ---   |
-| apt                |  1   | Linux (Debian-based) |  ---   |
-| apt-get            |  1   | Linux (Debian-based) |  ---   |
-| dnf                |  1   | Linux (Fedora)       |  ---   |
-| nix                |  1   | Linux, NixOS         |  ---   |
-| pacman             |  1   | Linux                |  ---   |
+| apt                |  1   | Linux (Debian-based) |  ✅    |
+| apt-get            |  1   | Linux (Debian-based) |  apt   |
+| dnf                |  1   | Linux (Fedora)       |  ✅    |
+| nix-env            |  1   | Linux, NixOS         |  ✅    |
+| pacman             |  1   | Linux                |  ✅    |
 | swupd              |  1   | Linux                |  ---   |
 | rpm                |  1   | Linux                |  ---   |
-| snap               |  2   | Linux                |  ---   |
-| flatpak            |  2   | Linux                |  ---   |
+| emerge             |  1   | Linux                |  ✅    |
+| zypper             |  1   | Linux                |  ✅    |
+| apk                |  1   | Linux                |  ✅    |
+| xbps               |  1   | Linux                |  ✅    |
+| snap               |  2   | Linux                |  ✅    |
+| flatpak            |  2   | Linux                |  ✅    |
+| pkg                |  2   | Linux                |  ✅    |
+| yum                |  2   | Linux                |  ✅    |
 | pkgsrc             |  2   | Linux                |  ---   |
 | winget             |  2   | Windows              |  ---   |
 | choco (Chocolatey) |  2   | Windows              |  ---   |
-| go                 |  3   | language-based pm    |  ---   |
-| cargo              |  3   | language-based pm    |  ---   |
-| python             |  3   | language-based pm    |  ---   |
 
 \* `exec` stands for __execution priority__.
 \* `pm` stands for __package manager__.
