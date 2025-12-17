@@ -70,7 +70,7 @@ Supported package managers:
 | pkg                |  2   | Linux                |  ✅    |
 | yum                |  2   | Linux                |  ✅    |
 | pkgsrc             |  2   | Linux                |  ---   |
-| winget             |  2   | Windows              |  ---   |
+| winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ---   |
 
 \* `exec` stands for __execution priority__.

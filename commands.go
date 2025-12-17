@@ -152,7 +152,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "pkg upgrade -y",
 		ListInstalled: "pkg info",
 	},
-	// winget
+	"winget": {
+		Name:          "winget",
+		Install:       "winget install x",
+		Uninstall:     "winget uninstall x",
+		Upgrade:       "winget upgrade x",
+		Search:        "winget search x",
+		Info:          "winget show x",
+		UpgradeAll:    "winget upgrade",
+		ListInstalled: "winget list",
+	},
 	// scoop
 	// choco
 	// urpm
