@@ -222,9 +222,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "pkgman -Syu",
 		ListInstalled: "pkgman -Q",
 	},
-
-	// pkg (of termux)
-	// opkg
+	"opkg": {
+		Name:          "opkg",
+		Install:       "opkg install x",
+		Uninstall:     "opkg remove x",
+		Upgrade:       "opkg upgrade x",
+		Search:        "opkg search x",
+		Info:          "opkg info x",
+		UpgradeAll:    "opkg upgrade",
+		ListInstalled: "opkg list-installed",
+	},
 	// eopkg
 
 	// guix
