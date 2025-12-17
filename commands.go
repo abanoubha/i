@@ -252,5 +252,14 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "guix upgrade",
 		ListInstalled: "guix list",
 	},
-	// cards
+	"cards": {
+		Name:          "cards",
+		Install:       "cards install x",
+		Uninstall:     "cards remove x",
+		Upgrade:       "cards upgrade x",
+		Search:        "cards search x",
+		Info:          "cards info x",
+		UpgradeAll:    "cards upgrade",
+		ListInstalled: "cards list",
+	},
 }

@@ -78,6 +78,7 @@ Supported package managers:
 | opkg               |  2   | Linux                |  ✅    |
 | eopkg              |  2   | Linux                |  ✅    |
 | guix               |  2   | Linux                |  ✅    |
+| cards              |  2   | Linux                |  ✅    |
 | winget             |  2   | Windows              |  ✅    |
 | choco (Chocolatey) |  2   | Windows              |  ✅    |
 
