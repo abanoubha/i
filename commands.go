@@ -202,7 +202,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "slackpkg upgrade",
 		ListInstalled: "slackpkg list installed",
 	},
-	// prt-get
+	"prt-get": {
+		Name:          "prt-get",
+		Install:       "prt-get install x",
+		Uninstall:     "prt-get remove x",
+		Upgrade:       "prt-get upgrade x",
+		Search:        "prt-get search x",
+		Info:          "prt-get info x",
+		UpgradeAll:    "prt-get upgrade",
+		ListInstalled: "prt-get list installed",
+	},
 	// pkgman
 
 	// pkg (of termux)
