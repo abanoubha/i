@@ -37,7 +37,7 @@ func main() {
 	var pkgName string
 
 	// Simple custom parsing to handle flags mixed with args
-	for i := 0; i < len(args); i++ {
+	for i := range args {
 		arg := args[i]
 		if strings.HasPrefix(arg, "-") {
 			switch arg {
