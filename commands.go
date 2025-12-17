@@ -182,7 +182,16 @@ var pm_commands = map[string]commands{
 		UpgradeAll:    "choco upgrade",
 		ListInstalled: "choco list",
 	},
-	// urpm
+	"urpm": {
+		Name:          "urpm",
+		Install:       "urpmi x",
+		Uninstall:     "urpme x",
+		Upgrade:       "urpmi --update x",
+		Search:        "urpmq --search x",
+		Info:          "urpmq --info x",
+		UpgradeAll:    "urpmi --update",
+		ListInstalled: "urpmq --list",
+	},
 	// slackpkg
 	// prt-get
 	// pkgman
