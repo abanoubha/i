@@ -142,6 +142,10 @@ func main() {
 			fmt.Println("No package specified.")
 			return
 		}
+		if ok, path := isInstalled(pkgName); ok {
+			fmt.Printf("Package '%s' is already installed at %s\n", pkgName, path)
+			return
+		}
 		executeCommand(cmds.Install, pkgName)
 	case "uninstall", "remove", "rm":
 		if pkgName == "" {
