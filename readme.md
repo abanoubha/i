@@ -144,6 +144,15 @@ Using package manager: apt
 Executing: apt install vim
 ```
 
+Show all installed/found package managers on your system:
+
+```sh
+$ i pms
+Available package managers:
+- apt
+- snap
+```
+
 ### Specify a package manager to use
 
 Force `i` to use `apt` to install `vim`:
