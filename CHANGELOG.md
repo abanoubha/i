@@ -23,6 +23,8 @@
 ## v25.12.20
 
 - fix: add `sudo` to some commands which need super user permissions.
+- feature(`performance_test.go`): benchmarking performance of RegExp replacement vs string manipulation replacement.
+- fix: use string manipulation instead of RegExp replacement for performance.
 
 ## next
 
