@@ -337,10 +337,11 @@ func executeCommand(template string, pkgName string) {
 		return
 	}
 
-	re := regexp.MustCompile(`\bx\b`)
-	cmdStr := re.ReplaceAllStringFunc(template, func(s string) string {
-		return pkgName
-	})
+	cmdStr := template
+	// if template ends with ".x" or " x" remove "x" and add pkgName
+	if strings.HasSuffix(template, ".x") || strings.HasSuffix(template, " x") {
+		cmdStr = strings.TrimSuffix(template, "x") + pkgName
+	}
 
 	if verbose {
 		fmt.Printf("Executing: %s\n", cmdStr)
