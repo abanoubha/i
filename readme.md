@@ -4,6 +4,9 @@ __i__ stands for __install__. You can use `i` to install any software via any pa
 
 TL;DR i is an abstraction over all other package managers available on Linux/MacOS.
 
+> [!NOTE]
+> [lazyinstaller](https://github.com/abanoubha/lazyinstaller) is the TUI version of the same abstraction concept.
+
 ## Why ?
 
 If you used to __apt__ or __brew__, and need to use __dnf__ or __swupd__. It is hard sometimes. But if you use __i__, it will be always the same.
