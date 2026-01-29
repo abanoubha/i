@@ -11,12 +11,21 @@ PACKAGE_PATH="."
 BASE_NAME="i"
 
 # List of target platforms as "GOOS/GOARCH"
+# go tool dist list
 PLATFORMS="
 linux/amd64
 linux/arm64
 windows/amd64
+windows/arm64
 darwin/arm64
 darwin/amd64
+freebsd/amd64
+freebsd/arm64
+freebsd/riscv64
+netbsd/amd64
+netbsd/arm64
+openbsd/amd64
+openbsd/arm64
 "
 
 OUT_DIR="./dist"
