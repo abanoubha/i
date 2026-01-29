@@ -27,6 +27,9 @@ when you are inside the cloned/downloaded project source code, run this command:
 sh scripts/install.sh
 ```
 
+> [!NOTE]
+> you can get the install script alone/separately and run it on your system.
+
 Build the project from source:
 
 ```sh
