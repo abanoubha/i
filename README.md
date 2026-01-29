@@ -243,3 +243,11 @@ GOOS=darwin GOARCH=arm64 go build -o i-macos-apple-silicon .
 # macOS intel 64 bit
 GOOS=darwin GOARCH=amd64 go build -o i-macos-x64 .
 ```
+
+## Are 'i' source code anywhere else?
+
+yes, you can find 'i' project on:
+
+- <https://github.com/abanoubha/i>
+- <https://codeberg.org/abanoubha/i>
+- <https://gitlab.com/abanoubha/i>
