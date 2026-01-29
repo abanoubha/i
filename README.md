@@ -109,6 +109,8 @@ i uninstall vim
 i remove vim
 # or
 i rm vim
+# un
+i un vim
 
 # upgrade a package
 i upgrade vim
