@@ -37,6 +37,19 @@ go mod tidy && go build -o i .
 ./i
 ```
 
+## Uninstall 'i' tool
+
+Use uninstallation script in `scripts/uninstall.sh` to remove the i tool.
+
+when you are inside the cloned/downloaded project source code, run this command:
+
+```sh
+sh scripts/uninstall.sh
+```
+
+> [!NOTE]
+> you can get the uninstall script alone and run it on your system.
+
 ## supported package managers
 
 You can list all supported package managers using `i pmlist`:
