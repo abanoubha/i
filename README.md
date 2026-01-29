@@ -19,6 +19,14 @@ Use Go to install i:
 go install github.com/abanoubha/i@latest
 ```
 
+Use installation script in `scripts/install.sh` like this:
+
+when you are inside the cloned/downloaded project source code, run this command:
+
+```sh
+sh scripts/install.sh
+```
+
 Build the project from source:
 
 ```sh
