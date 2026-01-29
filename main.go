@@ -187,7 +187,7 @@ func main() {
 			return
 		}
 		executeCommand(cmds.Install, pkgName)
-	case "uninstall", "remove", "rm":
+	case "uninstall", "remove", "rm", "un":
 		if pkgName == "" {
 			fmt.Println("No package specified.")
 			return
