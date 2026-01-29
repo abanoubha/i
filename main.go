@@ -47,7 +47,7 @@ func main() {
 			case "--help", "-h":
 				printUsage()
 				return
-			case "--version":
+			case "--version", "-v":
 				fmt.Printf("i the installer v%v\n", version)
 				return
 			default:
@@ -220,7 +220,52 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Printf("i the abstraction over all package managers v%v\nUsage:\n  i install vim\n  i install --quiet vim\n  i install --apt vim\n  i info vim\n  i search vim\n  i uninstall vim\n", version)
+	fmt.Printf(`
+i the abstraction over all package managers v%v
+Usage:
+i install vim			# install vim program
+i add vim				# install vim program
+
+i info vim				# show information about vim program
+i show vim				# show information about vim program
+
+i search vim			# search for vim program
+i find vim				# search for vim program
+
+i uninstall vim			# uninstall vim program from the system
+i remove vim			# uninstall vim program from the system
+i rm vim				# uninstall vim program from the system
+i un vim				# uninstall vim program from the system
+
+i install --quiet vim	# show less information while installing vim
+i install --silent vim	# show less information while installing vim
+i install --compact vim	# show less information while installing vim
+i install -q vim		# show less information while installing vim
+
+i uninstall --quiet vim		# show less information while removing vim
+i uninstall --silent vim	# show less information while removing vim
+i uninstall --compact vim	# show less information while removing vim
+i uninstall -q vim			# show less information while removing vim
+
+i install --apt vim		# use 'apt' to install vim program
+i add --apt vim			# use 'apt' to install vim program
+
+i install --snap vim	# use 'snap' to install vim program
+i add --snap vim		# use 'snap' to install vim program
+
+i install --flatpak vim	# use 'flatpak' to install vim program
+i add --flatpak vim		# use 'flatpak' to install vim program
+
+i install --pacman vim	# use 'pacman' to install vim program
+i add --pacman vim		# use 'pacman' to install vim program
+
+i --help				# show this information
+i -h					# show this information
+
+i --version				# show version number
+i -v					# show version number
+
+`, version)
 }
 
 func validateInput(input string) bool {
