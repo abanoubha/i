@@ -26,6 +26,13 @@
 - feature(`performance_test.go`): benchmarking performance of RegExp replacement vs string manipulation replacement.
 - fix: use string manipulation instead of RegExp replacement for performance.
 
+## v26.01.29
+
+- better comprehensive help screen
+- feature: use '--quiet' flag instead of '--verbose', so it will be verbose by default
+- feature: use '-v' as a short flag for '--version', rewrite help screen for detailed help info
+- feature: + use 'un' as a short for 'uninstall'
+
 ## next
 
 - use `i i vim` as a fast command for `i install vim`
