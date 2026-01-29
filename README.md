@@ -127,12 +127,10 @@ i update
 i up
 ```
 
-You can add `--verbose` flag to get verbose output with more details like this:
+You can add `--quiet` flag to get less verbose output with less details like this:
 
 ```sh
-$ sudo i --verbose install vim
-Using package manager: apt
-Executing: apt install vim
+$ sudo i --quiet install vim
 Reading package lists... Done
 Building dependency tree... Done
 Reading state information... Done
@@ -140,12 +138,7 @@ vim is already the newest version (2:9.1.0016-1ubuntu7.9).
 0 upgraded, 0 newly installed, 0 to remove and 44 not upgraded.
 ```
 
-As you can see, `--verbose` flag will show more details about the installation process like these two lines in the output above.
-
-```sh
-Using package manager: apt
-Executing: apt install vim
-```
+As you can see, `--quiet` flag will show less details about the installation process.
 
 Show all installed/found package managers on your system:
 

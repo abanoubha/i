@@ -14,7 +14,7 @@ import (
 
 var (
 	operatingSystem string
-	verbose         bool
+	quiet           bool = false
 	forcedPM        string
 )
 
@@ -42,8 +42,8 @@ func main() {
 		arg := args[i]
 		if strings.HasPrefix(arg, "-") {
 			switch arg {
-			case "--verbose", "-v":
-				verbose = true
+			case "--quiet", "--silent", "--compact", "-q":
+				quiet = true
 			case "--help", "-h":
 				printUsage()
 				return
@@ -93,8 +93,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	if verbose {
-		fmt.Printf("Using package manager: %s\n", pm.Name)
+	if !quiet {
+		fmt.Printf("[info] using package manager: %s\n", pm.Name)
 	}
 
 	if pkgName != "" {
@@ -118,8 +118,8 @@ func main() {
 	}
 
 	if cmds.UpdateIndex != "" && updateRequiredActions[action] {
-		if verbose {
-			fmt.Println("Updating local index...")
+		if !quiet {
+			fmt.Println("[info] updating local index...")
 		}
 		executeCommand(cmds.UpdateIndex, "")
 	}
@@ -160,14 +160,14 @@ func main() {
 				if !ok {
 					continue
 				}
-				if verbose {
-					fmt.Printf("Upgrading packages for manager: %s\n", p.Name)
+				if !quiet {
+					fmt.Printf("[info] upgrading packages for manager: %s\n", p.Name)
 				}
 
 				// If this is not the primary PM (which was already updated at start), update its index
 				if p.Name != pm.Name && c.UpdateIndex != "" {
-					if verbose {
-						fmt.Printf("Updating index for %s...\n", p.Name)
+					if !quiet {
+						fmt.Printf("[info] updating index for %s...\n", p.Name)
 					}
 					executeCommand(c.UpdateIndex, "")
 				}
@@ -220,7 +220,7 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Printf("i the abstraction over all package managers v%v\nUsage:\n  i install vim\n  i install --verbose vim\n  i install --apt vim\n  i info vim\n  i search vim\n  i uninstall vim\n", version)
+	fmt.Printf("i the abstraction over all package managers v%v\nUsage:\n  i install vim\n  i install --quiet vim\n  i install --apt vim\n  i info vim\n  i search vim\n  i uninstall vim\n", version)
 }
 
 func validateInput(input string) bool {
@@ -343,8 +343,8 @@ func executeCommand(template string, pkgName string) {
 		cmdStr = strings.TrimSuffix(template, "x") + pkgName
 	}
 
-	if verbose {
-		fmt.Printf("Executing: %s\n", cmdStr)
+	if !quiet {
+		fmt.Printf("[info] executing: %s\n", cmdStr)
 	}
 
 	parts := strings.Fields(cmdStr)
@@ -362,8 +362,8 @@ func executeCommand(template string, pkgName string) {
 
 	err := cmd.Run()
 	if err != nil {
-		if verbose {
-			fmt.Printf("Error executing command: %v\n", err)
+		if !quiet {
+			fmt.Printf("[error] error executing command: %v\n", err)
 		}
 		os.Exit(1)
 	}
