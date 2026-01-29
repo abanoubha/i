@@ -207,6 +207,28 @@ So, you can use `apt install vim` to install vim using the apt package manager t
 
 ## build executables for all operating systems / platforms
 
+Clone the 'i' project:
+
+```sh
+git clone --depth 1 -b main https://github.com/abanoubha/i.git
+```
+
+Go inside the project directory/folder:
+
+```sh
+cd i
+```
+
+To build executables for all supported platforms, operating systems, and architectures, run this command while you are inside the cloned/downloaded project source code:
+
+```sh
+sh scripts/build-all.sh
+```
+
+The executables/binaries for all supported OSes will be inside `./dist` directory/folder.
+
+Or you can run manual command for each OS/arch to build its compatible executable like these commands:
+
 ```sh
 # linux 64 bit (current os)
 go build -o i-linux-x64 .
