@@ -227,6 +227,12 @@ sh scripts/build-all.sh
 
 The executables/binaries for all supported OSes will be inside `./dist` directory/folder.
 
+You can specify the version/release number (if you like):
+
+```sh
+sh scripts/build-all.sh v260130
+```
+
 Or you can run manual command for each OS/arch to build its compatible executable like these commands:
 
 ```sh
