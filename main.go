@@ -307,8 +307,13 @@ func detectPM() {
 	operatingSystem = runtime.GOOS
 	switch operatingSystem {
 	case "windows":
-		fmt.Println("Windows support is minimal.")
-		// Potential windows logic could be added here similar to linux/mac
+		fmt.Println("[info] Windows support is experimental.")
+		if ok, path := isInstalled("winget"); ok {
+			detectedPMs = append(detectedPMs, packageManager{Name: "winget", Path: path})
+		}
+		if ok, path := isInstalled("choco"); ok {
+			detectedPMs = append(detectedPMs, packageManager{Name: "choco", Path: path})
+		}
 	case "darwin":
 		if ok, path := isInstalled("brew"); ok {
 			detectedPMs = append(detectedPMs, packageManager{Name: "brew", Path: path})

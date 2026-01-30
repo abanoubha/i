@@ -86,4 +86,6 @@ var distro_pm = map[string]string{
 	"android": "pkg", // in termux
 
 	"haiku": "pkgman",
+
+	"windows": "winget",
 }
