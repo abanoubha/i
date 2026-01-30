@@ -250,6 +250,20 @@ GOOS=darwin GOARCH=arm64 go build -o i-macos-apple-silicon .
 GOOS=darwin GOARCH=amd64 go build -o i-macos-x64 .
 ```
 
+## versioning
+
+I use a simple date as a version number for releases. If I released a version on Jan 30, 2026 , I will set the version number as `260130` and named `v260130` (prefixed with v for version).
+
+```plain
+260130
+^ ^ ^
+y m d
+
+26      01       30
+^       ^        ^
+year    month    day
+```
+
 ## Are 'i' source code anywhere else?
 
 yes, you can find 'i' project on:
