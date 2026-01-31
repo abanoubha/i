@@ -13,24 +13,25 @@ If you used to __apt__ or __brew__, and need to use __dnf__ or __swupd__. It is 
 
 ## Install 'i'
 
-Use Go to install i:
+Run the installation script in the terminal like this:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh | sh
+```
+
+Or use Go to install i:
 
 ```sh
 go install github.com/abanoubha/i@latest
 ```
 
-Use installation script in `scripts/install.sh` like this:
-
-when you are inside the cloned/downloaded project source code, run this command:
+If you cloned/downloaded project source code, use the included installation script in `scripts/install.sh` like this:
 
 ```sh
 sh scripts/install.sh
 ```
 
-> [!NOTE]
-> you can get the install script alone/separately and run it on your system.
-
-Build the project from source:
+Or build the project from source:
 
 ```sh
 # get project deps/libs, then build the binary/executable and call it 'i'
@@ -42,16 +43,13 @@ go mod tidy && go build -o i .
 
 ## Uninstall 'i' tool
 
-Use uninstallation script in `scripts/uninstall.sh` to remove the i tool.
-
-when you are inside the cloned/downloaded project source code, run this command:
+Run the uninstall script in the terminal like this:
 
 ```sh
-sh scripts/uninstall.sh
+curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh | sh
 ```
 
-> [!NOTE]
-> you can get the uninstall script alone and run it on your system.
+It will inform you that the i tool is removed.
 
 ## supported package managers
 
