@@ -79,6 +79,10 @@ for PLATFORM in $PLATFORMS; do
 
     OUTPUT_NAME="$BASE_NAME-$OUT_OS-$OUT_ARCH"
 
+    if [ -n "$1" ]; then
+        OUTPUT_NAME="$OUTPUT_NAME-$1"
+    fi
+
     if [ "$GOOS" = "windows" ]; then
         OUTPUT_NAME="$OUTPUT_NAME.exe"
     fi

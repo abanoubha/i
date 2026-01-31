@@ -225,6 +225,12 @@ sh scripts/build-all.sh
 
 The executables/binaries for all supported OSes will be inside `./dist` directory/folder.
 
+You can specify the version/release number (if you like):
+
+```sh
+sh scripts/build-all.sh v260130
+```
+
 Or you can run manual command for each OS/arch to build its compatible executable like these commands:
 
 ```sh
@@ -240,6 +246,20 @@ GOOS=windows GOARCH=amd64 go build -o i-windows-x64.exe .
 GOOS=darwin GOARCH=arm64 go build -o i-macos-apple-silicon .
 # macOS intel 64 bit
 GOOS=darwin GOARCH=amd64 go build -o i-macos-x64 .
+```
+
+## versioning
+
+I use a simple date as a version number for releases. If I released a version on Jan 30, 2026 , I will set the version number as `260130` and named `v260130` (prefixed with v for version).
+
+```plain
+260130
+^ ^ ^
+y m d
+
+26      01       30
+^       ^        ^
+year    month    day
 ```
 
 ## Are 'i' source code anywhere else?
