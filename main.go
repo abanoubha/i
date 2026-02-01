@@ -223,11 +223,21 @@ func main() {
 		fmt.Printf("i the installer v%v\n", version)
 		return
 	case "selfup", "selfupdate", "selfupgrade":
-		if err := selfUpgrade(); err != nil {
+		const upgradeScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh"
+		fmt.Println("[info] Starting upgrade...")
+		if err := streamToShell(upgradeScript); err != nil {
 			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 			os.Exit(1)
 		}
 		fmt.Println("[info] 'i' is upgraded successfully.")
+	case "selfun", "selfuninstall", "selfdelete":
+		const uninstallScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh"
+		fmt.Println("[info] Starting self delete...")
+		if err := streamToShell(uninstallScript); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println("[info] 'i' is deleted successfully.")
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
@@ -434,14 +444,12 @@ func executeCommand(template string, pkgName string) {
 }
 
 // fetches a remote shell script and pipes it directly to sh.
-func selfUpgrade() error {
-	const scriptURL = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh"
-
+func streamToShell(url string) error {
 	client := &http.Client{
 		Timeout: 60 * time.Second,
 	}
 
-	resp, err := client.Get(scriptURL)
+	resp, err := client.Get(url)
 	if err != nil {
 		return fmt.Errorf("failed to initiate request: %w", err)
 	}
@@ -459,7 +467,6 @@ func selfUpgrade() error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	fmt.Println("[info] Starting upgrade...")
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("script execution failed: %w", err)
 	}
