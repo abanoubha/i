@@ -37,6 +37,14 @@
 
 - experimental support for Microsoft Windows via winget and Choco(latey).
 
+## v260201
+
+- fix: make 'help' as proper subcommands for consistency
+- fix: make 'version' as proper subcommands for consistency
+- feature: upgrade the previously installed `i` program
+- feature: delete/uninstall the previously installed `i` program
+- feature: support `doas` along with `sudo`
+
 ## next
 
 - use `i i vim` as a fast command for `i install vim`
