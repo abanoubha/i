@@ -44,7 +44,7 @@ func main() {
 			switch arg {
 			case "--quiet", "--silent", "--compact", "-q":
 				quiet = true
-			case "--help", "-h":
+			case "--help", "-h", "help":
 				printUsage()
 				return
 			case "--version", "-v", "version":
