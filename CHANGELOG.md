@@ -33,6 +33,10 @@
 - feature: use '-v' as a short flag for '--version', rewrite help screen for detailed help info
 - feature: + use 'un' as a short for 'uninstall'
 
+## v26.01.30
+
+- experimental support for Microsoft Windows via winget and Choco(latey).
+
 ## next
 
 - use `i i vim` as a fast command for `i install vim`
