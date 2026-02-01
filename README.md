@@ -67,7 +67,17 @@ go install github.com/abanoubha/i@latest
 
 ## Uninstall 'i' tool
 
-Run the uninstall script in the terminal like this:
+Use the dedicated subcommand like this:
+
+```sh
+i selfun
+# or
+i selfuninstall
+# or
+i selfdelete
+```
+
+Or run the uninstall script in the terminal like this:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh | sh
