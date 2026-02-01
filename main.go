@@ -44,10 +44,10 @@ func main() {
 			switch arg {
 			case "--quiet", "--silent", "--compact", "-q":
 				quiet = true
-			case "--help", "-h", "help":
+			case "--help", "-h":
 				printUsage()
 				return
-			case "--version", "-v", "version":
+			case "--version", "-v":
 				fmt.Printf("i the installer v%v\n", version)
 				return
 			default:
@@ -214,6 +214,12 @@ func main() {
 			fmt.Printf("Listing installed packages for %s:\n", p.Name)
 			executeCommand(c.ListInstalled, "")
 		}
+	case "help":
+		printUsage()
+		return
+	case "version":
+		fmt.Printf("i the installer v%v\n", version)
+		return
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
