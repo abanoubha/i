@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -10,6 +11,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"time"
 )
 
 var (
@@ -221,7 +223,11 @@ func main() {
 		fmt.Printf("i the installer v%v\n", version)
 		return
 	case "selfup", "selfupdate", "selfupgrade":
-		executeSelfUpgrade()
+		if err := selfUpgrade(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println("[info] 'i' is upgraded successfully.")
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
@@ -427,31 +433,36 @@ func executeCommand(template string, pkgName string) {
 	}
 }
 
-func executeSelfUpgrade() {
-	cmdStr := "curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh | sh"
+// fetches a remote shell script and pipes it directly to sh.
+func selfUpgrade() error {
+	const scriptURL = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh"
 
-	if !quiet {
-		fmt.Printf("[info] executing: %s\n", cmdStr)
+	client := &http.Client{
+		Timeout: 60 * time.Second,
 	}
 
-	parts := strings.Fields(cmdStr)
-	if len(parts) == 0 {
-		return
+	resp, err := client.Get(scriptURL)
+	if err != nil {
+		return fmt.Errorf("failed to initiate request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("server returned non-200 status: %d %s", resp.StatusCode, resp.Status)
 	}
 
-	head := parts[0]
-	args := parts[1:]
+	cmd := exec.Command("sh")
 
-	cmd := exec.Command(head, args...)
-	cmd.Stdin = os.Stdin
+	// pipe streams
+	cmd.Stdin = resp.Body
+
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	err := cmd.Run()
-	if err != nil {
-		if !quiet {
-			fmt.Printf("[error] error executing command: %v\n", err)
-		}
-		os.Exit(1)
+	fmt.Println("[info] Starting upgrade...")
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("script execution failed: %w", err)
 	}
+
+	return nil
 }
