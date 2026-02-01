@@ -237,13 +237,16 @@ func main() {
 		}
 		installLatestVersion() // Go impl
 	case "selfun", "selfuninstall", "selfdelete":
-		const uninstallScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh"
-		fmt.Println("[info] Starting self delete...")
-		if err := streamToShell(uninstallScript); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-			os.Exit(1)
+		if forcesh {
+			const uninstallScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh"
+			fmt.Println("[info] Starting self delete...")
+			if err := streamToShell(uninstallScript); err != nil {
+				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Println("[info] 'i' is deleted successfully.")
 		}
-		fmt.Println("[info] 'i' is deleted successfully.")
+		selfUninstall() // Go impl
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
