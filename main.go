@@ -47,7 +47,7 @@ func main() {
 			case "--help", "-h":
 				printUsage()
 				return
-			case "--version", "-v":
+			case "--version", "-v", "version":
 				fmt.Printf("i the installer v%v\n", version)
 				return
 			default:
