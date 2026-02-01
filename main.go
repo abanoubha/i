@@ -220,6 +220,8 @@ func main() {
 	case "version":
 		fmt.Printf("i the installer v%v\n", version)
 		return
+	case "selfup", "selfupdate", "selfupgrade":
+		executeSelfUpgrade()
 	default:
 		fmt.Printf("'%v' sub-command is not supported.\n", action)
 	}
@@ -398,6 +400,35 @@ func executeCommand(template string, pkgName string) {
 	if strings.HasSuffix(template, ".x") || strings.HasSuffix(template, " x") {
 		cmdStr = strings.TrimSuffix(template, "x") + pkgName
 	}
+
+	if !quiet {
+		fmt.Printf("[info] executing: %s\n", cmdStr)
+	}
+
+	parts := strings.Fields(cmdStr)
+	if len(parts) == 0 {
+		return
+	}
+
+	head := parts[0]
+	args := parts[1:]
+
+	cmd := exec.Command(head, args...)
+	cmd.Stdin = os.Stdin
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	if err != nil {
+		if !quiet {
+			fmt.Printf("[error] error executing command: %v\n", err)
+		}
+		os.Exit(1)
+	}
+}
+
+func executeSelfUpgrade() {
+	cmdStr := "curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh | sh"
 
 	if !quiet {
 		fmt.Printf("[info] executing: %s\n", cmdStr)
