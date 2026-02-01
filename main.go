@@ -18,6 +18,7 @@ var (
 	operatingSystem string
 	quiet           bool = false
 	forcedPM        string
+	forcesh         bool = false
 )
 
 type packageManager struct {
@@ -52,6 +53,8 @@ func main() {
 			case "--version", "-v":
 				fmt.Printf("i the installer v%v\n", version)
 				return
+			case "--forcesh", "-sh":
+				forcesh = true
 			default:
 				// Check for specific PM flags (e.g., --apt, --brew)
 				if after, ok := strings.CutPrefix(arg, "--"); ok {
@@ -223,13 +226,16 @@ func main() {
 		fmt.Printf("i the installer v%v\n", version)
 		return
 	case "selfup", "selfupdate", "selfupgrade":
-		const upgradeScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh"
-		fmt.Println("[info] Starting upgrade...")
-		if err := streamToShell(upgradeScript); err != nil {
-			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-			os.Exit(1)
+		if forcesh {
+			const upgradeScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh"
+			fmt.Println("[info] Starting upgrade...")
+			if err := streamToShell(upgradeScript); err != nil {
+				fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+				os.Exit(1)
+			}
+			fmt.Println("[info] 'i' is upgraded successfully.")
 		}
-		fmt.Println("[info] 'i' is upgraded successfully.")
+		installLatestVersion() // Go impl
 	case "selfun", "selfuninstall", "selfdelete":
 		const uninstallScript = "https://raw.githubusercontent.com/abanoubha/i/main/scripts/uninstall.sh"
 		fmt.Println("[info] Starting self delete...")
