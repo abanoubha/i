@@ -62,23 +62,17 @@ func selfUninstall() {
 	err := os.Remove(target)
 	if err != nil {
 		if os.IsPermission(err) {
-			if _, sudoErr := exec.LookPath("sudo"); sudoErr == nil {
-				cmd := exec.Command("sudo", "rm", "-f", target)
-				cmd.Stdout = os.Stdout
-				cmd.Stderr = os.Stderr
-				if err := cmd.Run(); err != nil {
-					fmt.Fprintf(os.Stderr, "Failed to remove %s (even with sudo).\n", target)
-					os.Exit(1)
-				}
-			} else {
-				fmt.Fprintf(os.Stderr, "Cannot remove %s: permission denied and sudo not found.\n", target)
+			if err := runAsSuperUser("rm", "-f", target); err != nil {
+				fmt.Fprintf(os.Stderr, "Failed to remove %s (even with sudo/doas).\n", target)
 				os.Exit(1)
 			}
+			fmt.Fprintf(os.Stderr, "Cannot remove %s: permission denied and sudo/doas not found.\n", target)
+			os.Exit(1)
 		} else {
 			fmt.Fprintf(os.Stderr, "Error removing file: %v\n", err)
 			os.Exit(1)
 		}
 	}
 
-	fmt.Printf("Uninstalled %s from %s\n", installName, target)
+	fmt.Printf("[info] uninstalled %s from %s\n", installName, target)
 }

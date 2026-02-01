@@ -426,6 +426,24 @@ func executeCommand(template string, pkgName string) {
 		cmdStr = strings.TrimSuffix(template, "x") + pkgName
 	}
 
+	if after, ok := strings.CutPrefix(cmdStr, "sudo "); ok {
+		cmdStr = after
+
+		if !quiet {
+			fmt.Printf("[info] executing: %s\n", cmdStr)
+		}
+
+		parts := strings.Fields(cmdStr)
+		if len(parts) == 0 {
+			return
+		}
+
+		if err := runAsSuperUser(parts...); err != nil {
+			fmt.Println("[error] can not run the command because sudo/doas not found yet the command require super user privilege/permissions", err)
+		}
+		return
+	}
+
 	if !quiet {
 		fmt.Printf("[info] executing: %s\n", cmdStr)
 	}

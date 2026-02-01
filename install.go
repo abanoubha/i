@@ -138,8 +138,8 @@ func installBinary(srcPath, destPath string) error {
 	dir := filepath.Dir(destPath)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		if os.IsPermission(err) {
-			if err := runSudo("mkdir", "-p", dir); err != nil {
-				return fmt.Errorf("sudo mkdir failed: %w", err)
+			if err := runAsSuperUser("mkdir", "-p", dir); err != nil {
+				return fmt.Errorf("sudo/doas mkdir failed: %w", err)
 			}
 		} else {
 			return err
@@ -152,12 +152,12 @@ func installBinary(srcPath, destPath string) error {
 	}
 
 	if os.IsPermission(err) {
-		fmt.Println("Permission denied. Attempting installation with sudo...")
-		if err := runSudo("cp", srcPath, destPath); err != nil {
-			return fmt.Errorf("sudo cp failed: %w", err)
+		fmt.Println("Permission denied. Attempting installation with sudo/doas...")
+		if err := runAsSuperUser("cp", srcPath, destPath); err != nil {
+			return fmt.Errorf("sudo/doas cp failed: %w", err)
 		}
-		if err := runSudo("chmod", "755", destPath); err != nil {
-			return fmt.Errorf("sudo chmod failed: %w", err)
+		if err := runAsSuperUser("chmod", "755", destPath); err != nil {
+			return fmt.Errorf("sudo/doas chmod failed: %w", err)
 		}
 		return nil
 	}
@@ -182,8 +182,17 @@ func copyFile(src, dst string) error {
 	return err
 }
 
-func runSudo(args ...string) error {
-	cmd := exec.Command("sudo", args...)
+func runAsSuperUser(args ...string) error {
+	var cmd *exec.Cmd
+	if _, err := exec.LookPath("sudo"); err == nil {
+		fmt.Println("[info] found 'sudo', try running the command with it")
+		cmd = exec.Command("sudo", args...)
+	} else if _, err := exec.LookPath("doas"); err == nil {
+		fmt.Println("[info] found 'doas', try running the command with it")
+		cmd = exec.Command("doas", args...)
+	} else {
+		return fmt.Errorf("cannot run the command: permission denied and sudo/doas not found.\n")
+	}
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
