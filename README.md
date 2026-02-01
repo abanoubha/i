@@ -41,6 +41,30 @@ go mod tidy && go build -o i .
 ./i
 ```
 
+## Upgrade 'i'
+
+To get the up to date (upgrade) 'i', use this command:
+
+```sh
+i selfup
+# or
+i selfupdate
+# or
+i selfupgrade
+```
+
+Or run the installation script *again* in the terminal like this:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/abanoubha/i/main/scripts/install.sh | sh
+```
+
+Or use Go to upgrade i:
+
+```sh
+go install github.com/abanoubha/i@latest
+```
+
 ## Uninstall 'i' tool
 
 Run the uninstall script in the terminal like this:
