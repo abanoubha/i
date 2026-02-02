@@ -34,9 +34,14 @@ func installLatestVersion() {
 	fmt.Printf("Detected system: %s/%s. Looking for asset: %s\n", runtime.GOOS, runtime.GOARCH, assetName)
 
 	apiURL := fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", GithubRepo)
-	downloadURL, err := getDownloadURL(apiURL, assetName)
+	downloadURL, newVersion, err := getDownloadURL(apiURL, assetName)
 	if err != nil {
 		fail("Failed to find download URL: %v", err)
+	}
+
+	if strings.Contains(newVersion, version) {
+		fmt.Printf("[info] your version of 'i' is up to date.\nInstalled version: v%v\nUpstream version: %v", version, newVersion)
+		return
 	}
 
 	fmt.Printf("Downloading: %s\n", downloadURL)
@@ -93,37 +98,38 @@ func detectAsset() (string, error) {
 	return "", fmt.Errorf("unsupported platform: %s/%s", runtime.GOOS, runtime.GOARCH)
 }
 
-func getDownloadURL(apiURL, assetTarget string) (string, error) {
+func getDownloadURL(apiURL, assetTarget string) (string, string, error) {
 	client := &http.Client{Timeout: 30 * time.Second}
 	req, err := http.NewRequest("GET", apiURL, nil)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	req.Header.Set("Accept", "application/vnd.github+json")
 	req.Header.Set("User-Agent", "i-installer-go")
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("API request failed with status: %s", resp.Status)
+		return "", "", fmt.Errorf("API request failed with status: %s", resp.Status)
 	}
 
 	var release Release
 	if err := json.NewDecoder(resp.Body).Decode(&release); err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	for _, asset := range release.Assets {
 		if strings.Contains(asset.Name, assetTarget) {
-			return asset.DownloadURL, nil
+			newVersion := lastAfterDash(asset.Name)
+			return asset.DownloadURL, newVersion, nil
 		}
 	}
 
-	return "", fmt.Errorf("asset '%s' not found in latest release", assetTarget)
+	return "", "", fmt.Errorf("asset '%s' not found in latest release", assetTarget)
 }
 
 func downloadFile(url string, dest *os.File) error {
@@ -209,4 +215,12 @@ func runAsSuperUser(args ...string) error {
 func fail(format string, args ...any) {
 	fmt.Fprintf(os.Stderr, "ERROR: "+format+"\n", args...)
 	os.Exit(1)
+}
+
+func lastAfterDash(s string) string {
+	idx := strings.LastIndex(s, "-")
+	if idx == -1 {
+		return s
+	}
+	return s[idx+1:]
 }
