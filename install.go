@@ -82,6 +82,13 @@ func detectAsset() (string, error) {
 		case "arm64":
 			return "i-macos-apple-silicon-arm64", nil
 		}
+	case "windows":
+		switch runtime.GOARCH {
+		case "amd64":
+			return "i-windows-x64", nil
+		case "arm64":
+			return "i-windows-arm64", nil
+		}
 	}
 	return "", fmt.Errorf("unsupported platform: %s/%s", runtime.GOOS, runtime.GOARCH)
 }
