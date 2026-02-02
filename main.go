@@ -292,6 +292,10 @@ i add --flatpak vim		# use 'flatpak' to install vim program
 i install --pacman vim	# use 'pacman' to install vim program
 i add --pacman vim		# use 'pacman' to install vim program
 
+i selfup				# upgrade 'i' to the latest version release
+i selfupdate			# upgrade 'i' to the latest version release
+i selfupgrade			# upgrade 'i' to the latest version release
+
 i --help				# show this information
 i -h					# show this information
 
