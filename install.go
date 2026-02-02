@@ -44,7 +44,8 @@ func installLatestVersion() {
 		return
 	}
 
-	fmt.Printf("Downloading: %s\n", downloadURL)
+	fmt.Printf("[info] upgrade i %v to %v\n[info] downloading: %s\n", version, newVersion, downloadURL)
+
 	tmpFile, err := os.CreateTemp("", "i-installer-*")
 	if err != nil {
 		fail("Failed to create temp file: %v", err)
