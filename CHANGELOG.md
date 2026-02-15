@@ -45,8 +45,11 @@
 - feature: delete/uninstall the previously installed `i` program
 - feature: support `doas` along with `sudo`
 
-## v260130
+## v260203
 
+- feature: support upgrading windows version release
+- fix: only download executable (i) if the new version is not installed
+- ux: when upgrading, show old version (installed) and new version
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 
 ## next
