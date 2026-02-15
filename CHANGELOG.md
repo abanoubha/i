@@ -45,8 +45,11 @@
 - feature: delete/uninstall the previously installed `i` program
 - feature: support `doas` along with `sudo`
 
+## v260130
+
+- latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
+
 ## next
 
 - use `i i vim` as a fast command for `i install vim`
-- latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 - TUI : type `vim` -> searching -> choosing it -> installing it.
