@@ -52,6 +52,11 @@
 - ux: when upgrading, show old version (installed) and new version
 - latest GitHub release binary: create a simple Bash script to get the latest binary/executable from GitHub releases and install it and add it to the PATH.
 
+## working on
+
+- upgrade to Go 1.26
+- feature: add '--names-only' flag to APT search command
+
 ## next
 
 - use `i i vim` as a fast command for `i install vim`
