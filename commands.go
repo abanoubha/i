@@ -28,7 +28,7 @@ var pm_commands = map[string]commands{
 		Install:       "sudo apt install x",
 		Uninstall:     "sudo apt remove x",
 		Upgrade:       "sudo apt install --only-upgrade x",
-		Search:        "apt search x",
+		Search:        "apt search --names-only x",
 		Info:          "apt show x",
 		UpgradeAll:    "sudo apt upgrade",
 		ListInstalled: "apt list --installed", // apt list -i
